@@ -1,0 +1,19 @@
+$font-stack:    Helvetica, sans-serif;
+$background-color: rgb(250, 250, 250);
+$text-color: #333;
+
+body {
+  font: 100% $font-stack;
+  background-color: $background-color;
+  color: $text-color
+}
+
+nav {
+  ul {
+    color: blue;
+    li {
+      color: red
+    }
+  }
+  color: yellow
+}
