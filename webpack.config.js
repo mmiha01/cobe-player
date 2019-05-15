@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin")
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   mode: 'development',
@@ -15,8 +16,9 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 3000,
-    open: true
-    // historyApiFallback: true
+    open: true,
+    historyApiFallback: true,
+    writeToDisk: false
   }, 
 
   // Enable sourcemaps for debugging webpack's output.
@@ -26,6 +28,17 @@ module.exports = {
       // Add '.ts' and '.tsx' as resolvable extensions.
       extensions: [".ts", ".tsx", ".js", ".json"]
   },
+
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "style.css"
+    }),
+    new HtmlWebPackPlugin({
+    template: "./index.html",
+    filename: "./index.html",
+    excludeChunks: [ 'server' ]
+    })
+  ], 
   
   // Rules for files and loaders
   module: {
@@ -39,24 +52,14 @@ module.exports = {
         enforce: "pre", test: /\.js$/, loader: "source-map-loader" 
       },
       {
-       // Loads the javacript into html template provided.
-       // Entry point is set below in HtmlWebPackPlugin in Plugins 
-      test: /\.html$/,
-      use: [
-          {
-            loader: "html-loader",
-            options: { 
-              minimize: true,
-              removeComments: false,
-              collapseWhitespace: false
-            }
-          }
-        ]
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.scss$/,
         use: [
-          "style-loader", // creates style nodes from JS strings
+          MiniCssExtractPlugin.loader,
+          //"style-loader", // creates style nodes from JS strings
           "css-loader", // translates CSS into CommonJS
           "sass-loader" // compiles Sass to CSS, using Node Sass by default
           ]
@@ -64,14 +67,22 @@ module.exports = {
         {
           test: /\.(png|svg|jpg|gif)$/,
           use: ['file-loader']
-        }        
+        },
+        {
+          // Loads the javacript into html template provided.
+          // Entry point is set below in HtmlWebPackPlugin in Plugins 
+         test: /\.html$/,
+         use: [
+             {
+               loader: "html-loader",
+               options: { 
+                 minimize: true,
+                 removeComments: false,
+                 collapseWhitespace: false
+               }
+             }
+           ]
+         }           
       ],
-  },
-  plugins: [
-    new HtmlWebPackPlugin({
-    template: "./index.html",
-    filename: "./index.html",
-    excludeChunks: [ 'server' ]
-    })
-  ]
+  }
 }
