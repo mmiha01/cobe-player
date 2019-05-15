@@ -1,10 +1,10 @@
-import * as React from "react"
-import * as ReactDOM from "react-dom"
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import './index.scss'
 
-import { Hello } from "./Hello"
+import { Hello } from './Hello'
 
 ReactDOM.render(
-    <Hello compiler="TypeScript" framework="React" />,
-    document.getElementById("example")
+    <Hello compiler='TypeScript' framework='React' />,
+    document.getElementById('example')
 )

@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 // import logo from './logo-black.png'
 const logo = require('./logo-black.png')
 
@@ -15,7 +15,7 @@ export class Hello extends React.Component<HelloProps, {}> {
             <div>
                 <h1>Cobe player setting up</h1>
                 <p>Setting up</p>
-                <img src={logo} alt="Logo image" />
+                <img src={logo} alt='Logo image' />
             </div>
         )
     }
