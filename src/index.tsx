@@ -2,9 +2,9 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.scss'
 
-import { Hello } from './Hello'
+import { Main } from './Hello'
 
 ReactDOM.render(
-    <Hello compiler='TypeScript' framework='React' />,
-    document.getElementById('example')
+    <Main compiler='TypeScript' framework='React' />,
+    document.getElementById('main')
 )

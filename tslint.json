@@ -9,7 +9,6 @@
         "quotemark": [
             true,
             "single",
-            "avoid-template",
             "avoid-escape"
           ],
           "eofline": false,
