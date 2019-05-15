@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -37,7 +38,8 @@ module.exports = {
     template: "./index.html",
     filename: "./index.html",
     excludeChunks: [ 'server' ]
-    })
+    }),
+    new CleanWebpackPlugin
   ], 
   
   // Rules for files and loaders

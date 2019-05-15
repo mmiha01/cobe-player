@@ -15,7 +15,8 @@
           "eofline": false,
           "trailing-comma": false,
           "interface-name": false,
-          "member-access": false
+          "member-access": false,
+          "no-var-requires": false
 
     },
     "rulesDirectory": []

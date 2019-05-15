@@ -1,6 +1,7 @@
 import * as React from 'react'
 // import logo from './logo-black.png'
 const logo = require('./logo-black.png')
+// import logo from './images'
 
 // import React from 'react'
 // import ReactDOM from 'react-dom'
