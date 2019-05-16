@@ -3,22 +3,34 @@ const logoMedium = require('./logo-medium.png')
 
 export interface MainProps { compiler: string; framework: string; }
 
-interface State { isAuthorized: boolean, didCheckAuthState: boolean }
+interface State {
+    currentlyPlaying: string,
+    isAuthorized: boolean,
+    didCheckAuthState: boolean,
+    playerID: string,
+    playerName: string,
+}
 
-export class Main extends React.Component<MainProps, State> {
+interface DevicesList {
+    id: number,
+    name: string,
+ }
+
+export class Main extends React.Component<MainProps, State, DevicesList> {
 
     state = {
+        currentlyPlaying: '',
         didCheckAuthState: false,
         isAuthorized: false,
-        player: {
-            track: ''
-        }
+        playerID: '',
+        playerName: '',
     }
 
     redirectToLogin = () => {
-        const scopes = encodeURIComponent('user-read-private user-read-email')
+        // tslint:disable-next-line: max-line-length
+        const scopes = encodeURIComponent('user-read-private user-read-email user-read-playback-state user-read-currently-playing')
         const redirectURL = encodeURIComponent('http://localhost:3000/auth')
-        const clientID = '55d72038af6c4929adb6dd70085b4e59'
+        const clientID = '156f1e1dec944ef78fb5d38131610afb'
         const spotifyAuth = 'https://accounts.spotify.com/authorize?response_type=token' +
         '&client_id=' + clientID +
         '&scope=' + scopes +
@@ -45,7 +57,7 @@ export class Main extends React.Component<MainProps, State> {
         if (!this.getTokenFromCookie()) {
             this.setState({ isAuthorized: false })
             this.setState({ didCheckAuthState: true })
-            return false;
+            return false
         }
         this.checkAuthWithSpotify()
     }
@@ -59,11 +71,57 @@ export class Main extends React.Component<MainProps, State> {
             const resData = JSON.parse(res)
             if (resData.error) {
                 this.setState({ isAuthorized: false })
+                this.setState({ didCheckAuthState: true })
                 return
             }
             this.setState({ isAuthorized: true })
             this.setState({ didCheckAuthState: true })
         })
+    }
+
+    findTargetedDevice = (devices: DevicesList[], deviceName: string = 'COBE’s Mac mini (3)') => {
+        for (const i of devices) {
+            if (i.name === deviceName) {
+                return i
+            }
+        }
+    }
+
+    getDevice = () => {
+        fetch(`https://api.spotify.com/v1/me/player/devices`, {
+            headers: {
+                'Authorization': 'Bearer ' + this.getTokenFromCookie()
+            }
+        }).then((res) => res.text()).then((res) => {
+            const resData = JSON.parse(res)
+            if (resData.error) {
+                this.setState({ isAuthorized: false })
+                return
+            }
+            const { id, name } = this.findTargetedDevice(resData.devices)
+            this.setState({ playerID: id.toString() })
+            this.setState({ playerName: name })
+        })
+    }
+
+    getPlayingTrack = () => {
+        fetch(`https://api.spotify.com/v1/me/player/currently-playing`, {
+            headers: {
+                'Authorization': 'Bearer ' + this.getTokenFromCookie()
+            }
+        }).then((res) => res.text()).then((res) => {
+            console.log(res)
+        })
+    }
+
+    getAllInfo = () => {
+        console.log('Getting info')
+        if (this.state.playerID.length > 0) {
+            return false
+        }
+
+        this.getDevice()
+        //this.getPlayingTrack()
     }
 
     componentWillMount() {
@@ -75,7 +133,7 @@ export class Main extends React.Component<MainProps, State> {
     }
 
     render() {
-        // console.log(this.state)
+        console.log(this.state)
         if (window.location.pathname === '/auth') {
             this.getTokenFromLocationHash()
             window.location.href = window.location.origin
@@ -105,7 +163,8 @@ export class Main extends React.Component<MainProps, State> {
                 </div>
             )
         } else {
-            return (<div>auth success</div>)
+            this.getAllInfo()
+            return (<div><button onClick={this.getPlayingTrack}>Get devices</button></div>)
         }
     }
 }
