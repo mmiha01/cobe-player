@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Player } from './player'
 const logoMedium = require('./logo-medium.png')
 
 export interface MainProps { compiler: string; framework: string; }
@@ -9,10 +10,18 @@ interface State {
     didCheckAuthState: boolean,
     playerID: string,
     playerName: string,
+    isPlaying: boolean,
+    isActive: boolean,
+    item: string,
+    album: string,
+    artists: string,
+    duration: number,
+    progress: number,
 }
 
 interface DevicesList {
     id: number,
+    is_active: boolean,
     name: string,
  }
 
@@ -21,9 +30,16 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
     state = {
         currentlyPlaying: '',
         didCheckAuthState: false,
+        isActive: false,
         isAuthorized: false,
+        isPlaying: false,
         playerID: '',
         playerName: '',
+        item: '',
+        album: '',
+        artists: '',
+        duration: 0,
+        progress: 0,
     }
 
     redirectToLogin = () => {
@@ -98,9 +114,10 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
                 this.setState({ isAuthorized: false })
                 return
             }
-            const { id, name } = this.findTargetedDevice(resData.devices)
+            const { id, name, is_active } = this.findTargetedDevice(resData.devices)
             this.setState({ playerID: id.toString() })
             this.setState({ playerName: name })
+            this.setState({ isActive: is_active })
         })
     }
 
@@ -110,18 +127,34 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
                 'Authorization': 'Bearer ' + this.getTokenFromCookie()
             }
         }).then((res) => res.text()).then((res) => {
-            console.log(res)
+            if (res.length === 0) {
+                return false;
+            }
+            const resData = JSON.parse(res)
+            this.parseTrackObject(resData)
         })
     }
 
+    parseTrackObject = (data: any) => {
+        const isPlaying = data.is_playing
+        const item = data.item.name
+        const duration = data.item.duration_ms
+        const progress = data.progress_ms
+        // tslint:disable-next-line: prefer-const
+        let artists = ''
+        // for (let a of data.item.artists) {
+        //     console.log(a)
+        // }
+    }
+
     getAllInfo = () => {
-        console.log('Getting info')
+        // console.log('Getting info')
         if (this.state.playerID.length > 0) {
             return false
         }
 
         this.getDevice()
-        //this.getPlayingTrack()
+        // this.getPlayingTrack()
     }
 
     componentWillMount() {
@@ -133,7 +166,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
     }
 
     render() {
-        console.log(this.state)
+        // console.log(this.state)
         if (window.location.pathname === '/auth') {
             this.getTokenFromLocationHash()
             window.location.href = window.location.origin
@@ -164,7 +197,18 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
             )
         } else {
             this.getAllInfo()
-            return (<div><button onClick={this.getPlayingTrack}>Get devices</button></div>)
+            return (
+                <div><button onClick={this.getPlayingTrack}>234234234</button></div>
+            )
+
+            // return (
+            //     <Player
+            //     isActive={this.state.isActive}
+            //     isAuthorized={this.state.isAuthorized}
+            //     isPlaying={this.state.isPlaying}
+            //     currentlyPlaying={this.state.currentlyPlaying}
+            //     />
+            // )
         }
     }
 }
