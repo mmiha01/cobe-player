@@ -15,8 +15,16 @@ html {
   height: 100%
 }
 
+h1,h2,h3,h4,h5,h6,p {
+  margin-bottom: 14px
+}
+
 body, #main {
   height: 100%
+}
+
+.pointer {
+  cursor: pointer
 }
 
 .hero {
@@ -29,12 +37,14 @@ body, #main {
   display: -webkit-flex;
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
+  position: relative
 }
 
 .hero-item {
   width: auto;
-  text-align: center
+  text-align: center;
+  position: relative
 }
 
 #logo-login-banner {
@@ -65,6 +75,60 @@ body, #main {
   cursor: pointer
 }
 
+.round-icon {
+  width: 480px;
+  height: 240px;
+  max-height: 50%;
+  max-width: 50%;
+  background-color: white;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+}
+
+.round-icon {
+  img {
+    height: 100%;
+    width: 60%
+  }  
+}
+
+.small-icon {
+  width: 28spx;
+  height: 28px;
+  margin-right: 5px
+}
+
+#volume-slider {
+  height: 100%;
+  width: 3px;
+  background: black;
+  margin: 0 auto;
+  display: block;
+  position: relative
+}
+
+#volume-slider-handle {
+  position: absolute;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: black;
+  border-radius: 50%;
+  z-index: 100; 
+  transition: top 0.4s ease-out;
+  transform: translate(-50%,-50%)
+}
+
+#progress-bar {
+  background: black;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 24px;
+  transition: width 0.4s ease-out
+}
 
 
 /* 
