@@ -12,11 +12,11 @@ interface State {
     playerName: string,
     isPlaying: boolean,
     isActive: boolean,
-    item: string,
     album: string,
     artists: string,
     duration: number,
     progress: number,
+    gotPlayerInfo: boolean,
 }
 
 interface DevicesList {
@@ -35,11 +35,11 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
         isPlaying: false,
         playerID: '',
         playerName: '',
-        item: '',
         album: '',
         artists: '',
         duration: 0,
         progress: 0,
+        gotPlayerInfo: false
     }
 
     redirectToLogin = () => {
@@ -70,16 +70,21 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
     }
 
     isUserLoggedIn = () => {
-        if (!this.getTokenFromCookie()) {
-            this.setState({ isAuthorized: false })
-            this.setState({ didCheckAuthState: true })
-            return false
-        }
-        this.checkAuthWithSpotify()
+        return new Promise((resolve) => {
+            if (!this.getTokenFromCookie()) {
+                this.setState({ isAuthorized: false })
+                this.setState({ didCheckAuthState: true })
+                this.setState({ gotPlayerInfo: true })
+                resolve(false)
+                return false
+            } else {
+                this.checkAuthWithSpotify().then(resolve)
+            }
+        })
     }
 
     checkAuthWithSpotify = () => {
-        fetch('https://api.spotify.com/v1/me', {
+        return fetch('https://api.spotify.com/v1/me', {
             headers: {
                 'Authorization': 'Bearer ' + this.getTokenFromCookie()
             }
@@ -88,23 +93,37 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
             if (resData.error) {
                 this.setState({ isAuthorized: false })
                 this.setState({ didCheckAuthState: true })
-                return
+                this.setState({ gotPlayerInfo: true })
+                return false
             }
             this.setState({ isAuthorized: true })
             this.setState({ didCheckAuthState: true })
+            return true
         })
     }
 
-    findTargetedDevice = (devices: DevicesList[], deviceName: string = 'COBE’s Mac mini (3)') => {
+    areThereActiveDevices(devices: DevicesList[]) {
         for (const i of devices) {
-            if (i.name === deviceName) {
+            if (i.is_active === true) {
+                return true
+            }
+        }
+        return false
+    }
+
+    findActiveDevice = (devices: DevicesList[]) => {
+        for (const i of devices) {
+            if (i.is_active === true) {
                 return i
             }
         }
     }
 
-    getDevice = () => {
-        fetch(`https://api.spotify.com/v1/me/player/devices`, {
+    getDevice = (allow: boolean = true) => {
+        if (!allow) {
+            return false
+        }
+        return fetch(`https://api.spotify.com/v1/me/player/devices`, {
             headers: {
                 'Authorization': 'Bearer ' + this.getTokenFromCookie()
             }
@@ -112,68 +131,101 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
             const resData = JSON.parse(res)
             if (resData.error) {
                 this.setState({ isAuthorized: false })
-                return
+                this.setState({ gotPlayerInfo: true })
+                return false
             }
-            const { id, name, is_active } = this.findTargetedDevice(resData.devices)
+            if (!this.areThereActiveDevices(resData.devices)) {
+                this.setState({ gotPlayerInfo: true })
+                return false
+            }
+
+            const {id, name, is_active } = this.findActiveDevice(resData.devices)
             this.setState({ playerID: id.toString() })
             this.setState({ playerName: name })
             this.setState({ isActive: is_active })
+            return true
         })
     }
 
-    getPlayingTrack = () => {
-        fetch(`https://api.spotify.com/v1/me/player/currently-playing`, {
+    getPlayingTrack = (allow: boolean = true) => {
+        if (!allow) {
+            return false
+        }
+        return fetch(`https://api.spotify.com/v1/me/player/currently-playing`, {
             headers: {
                 'Authorization': 'Bearer ' + this.getTokenFromCookie()
             }
         }).then((res) => res.text()).then((res) => {
             if (res.length === 0) {
-                return false;
+                this.setState({ gotPlayerInfo: true })
+                return false
             }
             const resData = JSON.parse(res)
+
+            if (resData.error) {
+                this.setState({ isAuthorized: false })
+                this.setState({ gotPlayerInfo: true })
+                return false
+            }
             this.parseTrackObject(resData)
+            return true
         })
     }
 
     parseTrackObject = (data: any) => {
+        const album = data.item.album.name
         const isPlaying = data.is_playing
         const item = data.item.name
         const duration = data.item.duration_ms
         const progress = data.progress_ms
         // tslint:disable-next-line: prefer-const
         let artists = ''
-        // for (let a of data.item.artists) {
-        //     console.log(a)
-        // }
+        for (const a of data.item.artists) {
+            artists += `${a.name} & `
+        }
+        // tslint:disable-next-line: object-literal-shorthand
+        this.setState({isPlaying: isPlaying})
+        // tslint:disable-next-line: object-literal-shorthand
+        this.setState({currentlyPlaying: item})
+        // tslint:disable-next-line: object-literal-shorthand
+        this.setState({duration: duration})
+        // tslint:disable-next-line: object-literal-shorthand
+        this.setState({progress: progress})
+        // tslint:disable-next-line: object-literal-shorthand
+        this.setState({artists: artists.slice(0, -2) })
+        // tslint:disable-next-line: object-literal-shorthand
+        this.setState({album: album })
     }
 
-    getAllInfo = () => {
-        // console.log('Getting info')
-        if (this.state.playerID.length > 0) {
-            return false
-        }
-
-        this.getDevice()
-        // this.getPlayingTrack()
+    checkAuthAndPlayer = () => {
+        this.isUserLoggedIn().
+        then(this.getDevice).
+        then(this.getPlayingTrack).
+        then(() => {
+            this.setState({ gotPlayerInfo: true })
+        })
     }
 
     componentWillMount() {
-        this.isUserLoggedIn()
+        this.checkAuthAndPlayer()
     }
 
-    shouldComponentUpdate() {
-        return this.state.didCheckAuthState
+    shouldComponentUpdate(a: any, b: any) {
+        if (b.gotPlayerInfo === true && b.didCheckAuthState === true) {
+            return true
+        } else {
+            return false
+        }
     }
 
     render() {
-        // console.log(this.state)
         if (window.location.pathname === '/auth') {
             this.getTokenFromLocationHash()
             window.location.href = window.location.origin
             return (<div>Pričekajte trenutak...</div>)
         }
-        if (!this.state.didCheckAuthState) {
-            this.checkAuthWithSpotify()
+
+        if (!this.state.didCheckAuthState || !this.state.gotPlayerInfo) {
             return (
                 <div className='hero'>
                     <div className='hero-item'>
@@ -196,19 +248,14 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
                 </div>
             )
         } else {
-            this.getAllInfo()
             return (
-                <div><button onClick={this.getPlayingTrack}>234234234</button></div>
+                <Player
+                isActive={this.state.isActive}
+                isAuthorized={this.state.isAuthorized}
+                isPlaying={this.state.isPlaying}
+                currentlyPlaying={this.state.currentlyPlaying}
+                />
             )
-
-            // return (
-            //     <Player
-            //     isActive={this.state.isActive}
-            //     isAuthorized={this.state.isAuthorized}
-            //     isPlaying={this.state.isPlaying}
-            //     currentlyPlaying={this.state.currentlyPlaying}
-            //     />
-            // )
         }
     }
 }
