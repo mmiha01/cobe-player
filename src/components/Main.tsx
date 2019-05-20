@@ -53,30 +53,13 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
         shuffle: false,
     }
 
-    areThereActiveDevices(devices: DevicesList[]) {
-        // return devices.some((x) => console.log)
-        for (const i of devices) {
-            if (i.is_active === true) {
-                return true
-            }
-        }
-        return false
-    }
+    areThereActiveDevices = (devices: DevicesList[]) => devices.some((device) => device.is_active)
 
-    findActiveDevice = (devices: DevicesList[]) => {
-        // return devices.find((x) => console.log)
-        for (const i of devices) {
-            if (i.is_active === true) {
-                return i
-            }
-        }
-    }
+    findActiveDevice = (devices: DevicesList[]) => devices.find((device) => device.is_active)
 
     parseValidPlayerResponse = (response: any) => {
         if (this.areThereActiveDevices(response.devices)) {
             const {id, name, is_active, volume_percent } = this.findActiveDevice(response.devices)
-            // !!!!!!!
-            // this.setState({ playerID: id.toString() })
             this.setState({
                 playerID: id.toString(),
                 playerName: name,
@@ -204,12 +187,16 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
     }
 
     render() {
+
+        // NetworkService.checkWaitTime()
+
         if (window.location.pathname === '/auth') {
             AuthService.getTokenFromLocationHash()
             window.location.href = window.location.origin
             return (<div>Pričekajte trenutak...</div>)
         }
 
+        // Isčupati dvije komponente van
         if (!this.state.didCheckAuthState || !this.state.gotPlayerInfo) {
             return (
                 <div className='hero'>

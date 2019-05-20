@@ -1,4 +1,3 @@
-import { CookieService } from './Cookie'
 import { NetworkService } from './Network'
 
 export class PlayerNetworkService {

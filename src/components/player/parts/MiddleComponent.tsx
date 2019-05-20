@@ -33,4 +33,3 @@ export class MiddleComponent extends React.Component<MiddleProps, {}> {
         )
     }
 }
-

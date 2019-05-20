@@ -1,8 +1,12 @@
-import { CookieService } from './cookie'
+import { CookieService } from './Cookie'
 
-// interface Headers {
-//     "Retry-After": number, 
-// }
+interface Headers {
+    'Retry-After': number, 
+}
+
+interface CustomResponse {
+    headers: Headers | PromiseLike<Headers>
+}
 
 export class NetworkService {
     static makeRequest = (requestPath: string, method: string = 'GET') => {
@@ -21,12 +25,11 @@ export class NetworkService {
             headers: {
                 'Authorization': 'Bearer ' + CookieService.getTokenFromCookie()
             },
-        }).then((res) => res.headers)
+        }).then((res) => {
+            return res.headers
+        })
     }
 }
-
-// NetworkService.checkWaitTime().then((a) => {
-//     if (a['Retry-After']) {
-
-//     }
-// })
+/**
+ * HEADERI ZA FETCH
+ */
