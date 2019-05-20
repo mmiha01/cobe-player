@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { CookieService } from '../services/Cookie'
-import {AuthService} from '../services/Auth'
+import { AuthService } from '../services/Auth'
 import { Player } from './player/Player'
 import { NetworkService } from '../services/Network'
 import { PlayerNetworkService } from '../services/PlayerNetwork'
+import images from '../images'
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -156,7 +157,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
                     return false
                 }
                 this.parseValidPlayerResponse(response)
-            }         
+            }
         })
     }
 
@@ -170,7 +171,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
         NetworkService.makeRequest('/player/previous', 'POST').then(() => {
             setTimeout(this.updatePlayerInformation, 200)
         })
-    }    
+    }
 
     setPlayerRepeat = () => {
 
@@ -190,7 +191,6 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
         this.setState({ isPlaying: true })
     }
 
-
     componentWillMount() {
         this.checkAuthAndPlayer()
     }
@@ -203,9 +203,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
         }
     }
 
-    render() { 
-        console.log(this.state)
-
+    render() {
         if (window.location.pathname === '/auth') {
             AuthService.getTokenFromLocationHash()
             window.location.href = window.location.origin
@@ -226,7 +224,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
             return (
                 <div className='hero'>
                     <div id='logo-login-banner'>
-                        {/* <img src={logoMedium} alt='' /> */}
+                        <img src={images.logoMedium} alt='' />
                     </div>
                     <div className='hero-item'>
                         <h1>COBE player</h1>
