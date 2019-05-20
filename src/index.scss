@@ -47,6 +47,32 @@ body, #main {
   position: relative
 }
 
+
+.large-hero {
+  height: 80%;
+  width: 100%
+}
+
+.abs-pos-hero {
+  position: absolute
+}
+
+.left-side-hero {
+  width: 40%;
+  left: 0;
+}
+
+.middle-side-hero {
+  left: 40%;
+  width: 50%;
+}
+
+.right-side-hero {
+  left: 90%;
+  width: 10%;
+  padding: 18px 0
+}
+
 #logo-login-banner {
   position: absolute;
   top: 0;
