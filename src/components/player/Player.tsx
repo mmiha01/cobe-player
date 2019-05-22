@@ -16,6 +16,8 @@ export interface PlayerProps {
     progress: number,
     duration: number,
     volume: number,
+    shuffle: boolean,
+    repeatMode: string,
     updaterFn: () => void,
     togglePlayerFn: () => void,
     repeatFn: () => void,
@@ -34,10 +36,12 @@ export class Player extends React.Component<PlayerProps, {}> {
         return (
             <div className='hero'>
                 <div className='hero-item large-hero'>
-                    <Toggler togglePlayerFn={this.props.togglePlayerFn} />
+                    <Toggler togglePlayerFn={this.props.togglePlayerFn} isPlaying={this.props.isPlaying} />
                     <MiddleComponent
                         artists={this.props.artists}
                         currentlyPlaying={this.props.currentlyPlaying}
+                        shuffle={this.props.shuffle}
+                        repeatMode={this.props.repeatMode}
                         shuffleFn={this.props.shuffleFn}
                         repeatFn={this.props.repeatFn}
                         nextFn={this.props.nextFn}

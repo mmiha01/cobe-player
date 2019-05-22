@@ -2,7 +2,7 @@ import { NetworkService } from './Network'
 
 export class PlayerNetworkService {
     static getPlayerInformation = () => {
-        return NetworkService.makeRequest('/player').then((response) => {
+        return NetworkService.makeRequest('/me/player').then((response) => {
             if (response && response.error) {
                 return response
             } else if (!response) {
@@ -22,5 +22,29 @@ export class PlayerNetworkService {
                 shuffle_state: response.shuffle_state,
             }
         })
+    }
+
+    static playNextTrack = () => {
+        return NetworkService.makeRequest('/me/player/next', 'POST')
+    }
+
+    static playPreviousTrack = () => {
+        return NetworkService.makeRequest('/me/player/previous', 'POST')
+    }
+
+    static pausePlayer = () => {
+        return NetworkService.makeRequest('/me/player/pause', 'PUT')
+    }
+
+    static resumePlayer = () => {
+        return NetworkService.makeRequest('/me/player/play', 'PUT')
+    }
+
+    static toggleShuffle = (shuffleState: boolean) => {
+        return NetworkService.makeRequest(`/me/player/shuffle?state=${shuffleState.toString()}`, 'PUT')
+    }
+
+    static changeRepeatMode = (state: string) => {
+        return NetworkService.makeRequest(`/me/player/repeat?state=${state}`, 'PUT')
     }
 }

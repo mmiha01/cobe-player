@@ -168,42 +168,56 @@ export class Main extends React.Component<MainProps, State> {
         PlayerNetworkService.getPlayerInformation().then((response) => {
             if (response) {
                 if (response.error) {
-                    this.parseResponseError(response.error, () => {})
+                    // this.parseResponseError(response.error, () => {})
                     return false
                 }
-                console.log(response)
                 this.parseValidPlayerResponse(response)
             }
         })
     }
 
     playNextSong = () => {
-        NetworkService.makeRequest('/player/next', 'POST').then(() => {
-            setTimeout(this.updatePlayerInformation, 200)
+        PlayerNetworkService.playNextTrack().then(() => {
+            setTimeout(this.updatePlayerInformation, 500)
         })
     }
 
     playPreviousSong = () => {
-        NetworkService.makeRequest('/player/previous', 'POST').then(() => {
-            setTimeout(this.updatePlayerInformation, 200)
+        PlayerNetworkService.playPreviousTrack().then(() => {
+            setTimeout(this.updatePlayerInformation, 500)
         })
     }
 
     setPlayerRepeat = () => {
-
+        if (this.state.repeatMode === 'off') {
+            PlayerNetworkService.changeRepeatMode('context')
+            this.setState({ repeatMode: 'context' })
+        } else if (this.state.repeatMode === 'context') {
+            PlayerNetworkService.changeRepeatMode('track')
+            this.setState({ repeatMode: 'track' })
+        } else {
+            PlayerNetworkService.changeRepeatMode('off')
+            this.setState({ repeatMode: 'off' })
+        }
     }
 
     playerShuffle = () => {
-        
+        if (this.state.shuffle) {
+            this.setState({ shuffle: false })
+            PlayerNetworkService.toggleShuffle(false)
+        } else {
+            this.setState({ shuffle: true })
+            PlayerNetworkService.toggleShuffle(true)
+        }
     }
 
     togglePlayer = () => {
         if (this.state.isPlaying === true) {
-            NetworkService.makeRequest('/player/pause', 'PUT')
+            PlayerNetworkService.pausePlayer()
             this.setState({ isPlaying: false })
             return
         }
-        NetworkService.makeRequest('/player/play', 'PUT')
+        PlayerNetworkService.resumePlayer()
         this.setState({ isPlaying: true })
     }
 
@@ -244,6 +258,8 @@ export class Main extends React.Component<MainProps, State> {
                 progress={this.state.progress}
                 duration={this.state.duration}
                 volume={this.state.volume}
+                shuffle={this.state.shuffle}
+                repeatMode={this.state.repeatMode}
                 updaterFn={this.checkAuthAndPlayer}
                 togglePlayerFn={this.togglePlayer}
                 repeatFn={this.setPlayerRepeat}

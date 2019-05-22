@@ -1,7 +1,7 @@
 import { CookieService } from './Cookie'
 
 interface Headers {
-    'Retry-After': number, 
+    'Retry-After': number,
 }
 
 interface CustomResponse {
@@ -10,7 +10,7 @@ interface CustomResponse {
 
 export class NetworkService {
     static makeRequest = (requestPath: string, method: string = 'GET') => {
-        return fetch(`https://api.spotify.com/v1/me${requestPath}`, {
+        return fetch(`https://api.spotify.com/v1${requestPath}`, {
             method,
             headers: {
                 'Authorization': 'Bearer ' + CookieService.getTokenFromCookie()
@@ -21,7 +21,7 @@ export class NetworkService {
     }
 
     static checkWaitTime = () => {
-        return fetch('https://api.spotify.com/v1/me', {
+        return fetch('https://api.spotify.com/v1', {
             headers: {
                 'Authorization': 'Bearer ' + CookieService.getTokenFromCookie()
             },

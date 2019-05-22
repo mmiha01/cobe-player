@@ -3,11 +3,12 @@ import images from '../../../images'
 
 export interface TogglerProps {
     togglePlayerFn: () => void,
+    isPlaying: boolean,
 }
 
 export class Toggler extends React.Component<TogglerProps, {}> {
     render() {
-        const iconToUseForPlay = images.playIcon === true ? images.pauseIcon : images.playIcon
+        const iconToUseForPlay = this.props.isPlaying === true ? images.pauseIcon : images.playIcon
         return (
             <div className='hero abs-pos-hero left-side-hero'>
                 <div className='hero-item'>

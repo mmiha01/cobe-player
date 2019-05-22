@@ -20,7 +20,7 @@ export class AuthService {
     }
 
     static checkAuthWithSpotify = () => {
-        return NetworkService.makeRequest('').then((response) => {
+        return NetworkService.makeRequest('/me').then((response) => {
             if (response && response.error) {
                 return false
             }
