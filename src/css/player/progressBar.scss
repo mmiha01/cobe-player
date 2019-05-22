@@ -1,0 +1,11 @@
+@import '../colors';
+
+#progress-bar {
+    background: $cobe-dark;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 24px;
+    transition: width 0.4s ease-out
+  }
