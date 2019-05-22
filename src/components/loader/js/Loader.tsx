@@ -1,4 +1,5 @@
 import * as React from 'react'
+import '../css/spiner.scss'
 
 export class Loader extends React.Component<{}> {
     render() {

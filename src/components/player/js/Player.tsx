@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { NoDevices } from './NoDevices'
-import { Toggler } from './parts/Toggler'
-import { MiddleComponent } from './parts/MiddleComponent'
-import { ProgressBar } from './parts/ProgressBar';
-import { Slider } from './parts/Slider';
-import '../../css/player/general.scss'
+import { NoDevices } from '../parts/noDevices/js/NoDevices'
+import { Toggler } from '../parts/toggler/js/Toggler'
+import { MiddleComponent } from '../parts/middleComponent/js/MiddleComponent'
+import { ProgressBar } from '../parts/progressBar/js/ProgressBar';
+import { Slider } from '../parts/slider/js/Slider';
+import '../css/general.scss'
 
 export interface PlayerProps {
     isActive: boolean,

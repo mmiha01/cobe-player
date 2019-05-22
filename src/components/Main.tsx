@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { CookieService } from '../services/Cookie'
 import { AuthService } from '../services/Auth'
-import { Player } from './player/Player'
+import { Player } from './player/js/Player'
 import { NetworkService } from '../services/Network'
 import { PlayerNetworkService } from '../services/PlayerNetwork'
 import images from '../images'
-import { Loader } from './Loader';
-import { Login } from './Login';
-import { Menu } from './Menu';
+import { Loader } from './loader/js/Loader';
+import { Login } from './login/js/Login';
+import { Menu } from './menu/js/Menu';
 
 export interface MainProps { compiler: string; framework: string; }
 

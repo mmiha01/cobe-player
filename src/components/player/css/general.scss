@@ -1,4 +1,4 @@
-@import 'middleComponent', 'volumeSlider', 'progressBar';
+@import '../parts/middleComponent/css/middleComponent.scss', '../parts/slider/css/volumeSlider.scss', '../parts/slider/css/volumeSlider.scss';
 .large-hero {
     height: 80%;
     width: 100%

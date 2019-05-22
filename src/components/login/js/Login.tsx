@@ -1,5 +1,6 @@
 import * as React from 'react'
-import images from '../images'
+import images from '../../../images'
+import '../css/login.scss'
 
 export interface LoginProps {
     redirectFn: () => void,
