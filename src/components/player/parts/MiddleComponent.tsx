@@ -15,8 +15,8 @@ export class MiddleComponent extends React.Component<MiddleProps, {}> {
         return (
             <div className='hero abs-pos-hero middle-side-hero'>
                 <div className='hero-item'>
-                    <p>{this.props.artists  }</p>
-                    <h1>{this.props.currentlyPlaying}</h1>
+                    <p id='player-artists'>{this.props.artists  }</p>
+                    <h1 id='player-playing'>{this.props.currentlyPlaying}</h1>
                     <img src={images.previousIcon}
                     alt='Prethodna pjesma'
                     className='small-icon pointer'
