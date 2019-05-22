@@ -5,6 +5,8 @@ import { Player } from './player/Player'
 import { NetworkService } from '../services/Network'
 import { PlayerNetworkService } from '../services/PlayerNetwork'
 import images from '../images'
+import { Loader } from './Loader';
+import { Login } from './Login';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -33,7 +35,37 @@ interface DevicesList {
     volume_percent: number,
  }
 
-export class Main extends React.Component<MainProps, State, DevicesList> {
+interface Album {
+    name: string,
+}
+
+interface Artists {
+    name: string,
+}
+
+interface Item {
+    album: Album,
+    name: string,
+    duration_ms: number,
+    artists: Artists[],
+}
+
+interface ValidResponse {
+    devices: DevicesList[],
+    repeat_state: string,
+    shuffle_state: boolean,
+    is_playing: boolean,
+    album: string,
+    progress: number,
+    item: Item,
+ }
+
+interface ErrorInterface {
+    status: number,
+    message: string,
+ }
+
+export class Main extends React.Component<MainProps, State> {
 
     state = {
         currentlyPlaying: '',
@@ -57,7 +89,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
 
     findActiveDevice = (devices: DevicesList[]) => devices.find((device) => device.is_active)
 
-    parseValidPlayerResponse = (response: any) => {
+    parseValidPlayerResponse = (response: ValidResponse ) => {
         if (this.areThereActiveDevices(response.devices)) {
             const {id, name, is_active, volume_percent } = this.findActiveDevice(response.devices)
             this.setState({
@@ -75,7 +107,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
         }
     }
 
-    parseTrackObject = (data: any) => {
+    parseTrackObject = (data: Item) => {
         const album = data.album.name
         const item = data.name
         const duration = data.duration_ms
@@ -91,7 +123,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
         })
     }
 
-    parseResponseError = (err: any, fn: () => void) => {
+    parseResponseError = (err: ErrorInterface, fn: () => void) => {
         if (err.status === 401) {
             this.setState({isAuthorized: false})
         } else if (err.status === 429) {
@@ -110,7 +142,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
                 })
                 return false
             }
-            this.setState({ 
+            this.setState({
                 isAuthorized: true,
                 didCheckAuthState: true,
             })
@@ -139,6 +171,7 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
                     this.parseResponseError(response.error, () => {})
                     return false
                 }
+                console.log(response)
                 this.parseValidPlayerResponse(response)
             }
         })
@@ -178,46 +211,26 @@ export class Main extends React.Component<MainProps, State, DevicesList> {
         this.checkAuthAndPlayer()
     }
 
-    shouldComponentUpdate(a: any, b: any) {
-        if (b.gotPlayerInfo === true && b.didCheckAuthState === true) {
-            return true
-        } else {
-            return false
-        }
+    shouldComponentUpdate(a: {}, b: {
+        gotPlayerInfo: boolean,
+        didCheckAuthState: boolean, }) {
+        return b.gotPlayerInfo === true && b.didCheckAuthState === true;
     }
 
     render() {
-
         // NetworkService.checkWaitTime()
-
         if (window.location.pathname === '/auth') {
             AuthService.getTokenFromLocationHash()
             window.location.href = window.location.origin
             return (<div>Pričekajte trenutak...</div>)
         }
-
-        // Isčupati dvije komponente van
         if (!this.state.didCheckAuthState || !this.state.gotPlayerInfo) {
             return (
-                <div className='hero'>
-                    <div className='hero-item'>
-                        <p>Aplikacija se učitava...</p>
-                        <div className='lds-ellipsis'><div></div><div></div><div></div><div></div></div>
-                    </div>
-                </div>
+                <Loader />
             )
         } else if (!this.state.isAuthorized) {
-            document.title = 'Cobe player - Prijava'
             return (
-                <div className='hero'>
-                    <div id='logo-login-banner'>
-                        <img src={images.logoMedium} alt='' />
-                    </div>
-                    <div className='hero-item'>
-                        <h1>COBE player</h1>
-                        <button className='red-button' onClick={AuthService.redirectToLogin}>Prijava</button>
-                    </div>
-                </div>
+                <Login redirectFn={AuthService.redirectToLogin} />
             )
         } else {
             return (
