@@ -8,7 +8,8 @@ const shuffleIcon = require('./images/shuffle.svg')
 const repeatIcon = require('./images/repeat.svg')
 const playIcon = require('./images/play.svg')
 const pauseIcon = require('./images/pause.svg')
-
+const menuIcon = require('./images/menu.svg')
+const closeIcon = require('./images/close.svg')
 
 export default {
     logoLarge,
@@ -21,4 +22,6 @@ export default {
     repeatIcon,
     playIcon,
     pauseIcon,
+    menuIcon,
+    closeIcon,
 }

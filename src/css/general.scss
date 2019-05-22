@@ -18,9 +18,33 @@
   body, #main {
     height: 100%
   }
+
+  #main {
+    position: relative
+  }
+
+  #main-inner {
+    height: 100%
+  }
   
   .pointer {
     cursor: pointer
+  }
+
+  .menu-opener {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    z-index: 20;
+  }
+
+  .menu-opener {
+    img {
+      height: 100%;
+      width: 100%;
+    }
   }
   
   .hero {

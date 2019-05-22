@@ -1,0 +1,9 @@
+.hero-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    transition: right .4s ease-out;
+    width: 100%;
+    background: $cobe-light;
+    z-index: 900;
+}

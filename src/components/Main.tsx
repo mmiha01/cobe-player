@@ -7,6 +7,7 @@ import { PlayerNetworkService } from '../services/PlayerNetwork'
 import images from '../images'
 import { Loader } from './Loader';
 import { Login } from './Login';
+import { Menu } from './Menu';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -26,6 +27,7 @@ interface State {
     volume: number,
     repeatMode: string,
     shuffle: boolean,
+    menuOpened: boolean,
 }
 
 interface DevicesList {
@@ -83,6 +85,15 @@ export class Main extends React.Component<MainProps, State> {
         volume: 0,
         repeatMode: '',
         shuffle: false,
+        menuOpened: false,
+    }
+
+    toggleMenu = () => {
+        if (this.state.menuOpened) {
+            this.setState({ menuOpened: false })
+            return
+        }
+        this.setState({ menuOpened: true })
     }
 
     areThereActiveDevices = (devices: DevicesList[]) => devices.some((device) => device.is_active)
@@ -248,25 +259,31 @@ export class Main extends React.Component<MainProps, State> {
             )
         } else {
             return (
-                <Player
-                isActive={this.state.isActive}
-                isAuthorized={this.state.isAuthorized}
-                isPlaying={this.state.isPlaying}
-                currentlyPlaying={this.state.currentlyPlaying}
-                album={this.state.album}
-                artists={this.state.artists}
-                progress={this.state.progress}
-                duration={this.state.duration}
-                volume={this.state.volume}
-                shuffle={this.state.shuffle}
-                repeatMode={this.state.repeatMode}
-                updaterFn={this.checkAuthAndPlayer}
-                togglePlayerFn={this.togglePlayer}
-                repeatFn={this.setPlayerRepeat}
-                nextFn={this.playNextSong}
-                prevFn={this.playPreviousSong}
-                shuffleFn={this.playerShuffle}
-                />
+                <div id='main-inner'>
+                    <div className='pointer menu-opener' onClick={this.toggleMenu} >
+                        <img src={images.menuIcon} alt='' />
+                    </div>
+                    <Menu menuOpened={this.state.menuOpened} toggleMenu={this.toggleMenu} />
+                    <Player
+                    isActive={this.state.isActive}
+                    isAuthorized={this.state.isAuthorized}
+                    isPlaying={this.state.isPlaying}
+                    currentlyPlaying={this.state.currentlyPlaying}
+                    album={this.state.album}
+                    artists={this.state.artists}
+                    progress={this.state.progress}
+                    duration={this.state.duration}
+                    volume={this.state.volume}
+                    shuffle={this.state.shuffle}
+                    repeatMode={this.state.repeatMode}
+                    updaterFn={this.checkAuthAndPlayer}
+                    togglePlayerFn={this.togglePlayer}
+                    repeatFn={this.setPlayerRepeat}
+                    nextFn={this.playNextSong}
+                    prevFn={this.playPreviousSong}
+                    shuffleFn={this.playerShuffle}
+                    />
+                </div>
             )
         }
     }
