@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import './index.scss'
+import './css/index.scss'
 
 import { Main } from './components/Main'
 

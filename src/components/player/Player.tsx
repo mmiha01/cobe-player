@@ -4,7 +4,7 @@ import { Toggler } from './parts/Toggler'
 import { MiddleComponent } from './parts/MiddleComponent'
 import { ProgressBar } from './parts/ProgressBar';
 import { Slider } from './parts/Slider';
-
+import '../../css/player.scss'
 
 export interface PlayerProps {
     isActive: boolean,
