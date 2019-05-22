@@ -74,9 +74,12 @@
   }
   
   .small-icon {
-    width: 28spx;
-    height: 28px;
-    margin-right: 5px
+    width: 30spx;
+    height: 30px;
+    margin-right: 5px;
+    border-radius: 50%;
+    padding: 2px;
+    background: white
   }
 
   #logo-login-banner {
