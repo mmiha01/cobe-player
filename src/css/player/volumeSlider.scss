@@ -20,3 +20,18 @@
     transition: top 0.4s ease-out;
     transform: translate(-50%,-50%)
   }
+
+  #volume-text-display {
+    position: absolute;
+    left: 0; 
+    top: 0;
+    transform: translate(-150%, 10%);
+    opacity: 0; 
+    transition: opacity 0.2s ease-out
+  }
+
+  #volume-slider-container:hover {
+      #volume-text-display {
+        opacity: 1
+      }
+  }
