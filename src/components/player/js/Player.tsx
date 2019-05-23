@@ -4,9 +4,12 @@ import { Toggler } from '../parts/toggler/js/Toggler'
 import { MiddleComponent } from '../parts/middleComponent/js/MiddleComponent'
 import { ProgressBar } from '../parts/progressBar/js/ProgressBar';
 import { Slider } from '../parts/slider/js/Slider';
-import '../css/general.scss'
+import { UserInfo } from '../parts/userInfo/js/UserInfo';
 
 export interface PlayerProps {
+    userName: string,
+    productType: string,
+    imageURL: string,
     isActive: boolean,
     isAuthorized: boolean,
     isPlaying: boolean,
@@ -36,6 +39,11 @@ export class Player extends React.Component<PlayerProps, {}> {
         return (
             <div className='hero'>
                 <div className='hero-item large-hero'>
+                    <UserInfo
+                        userName={this.props.userName}
+                        imageURL={this.props.imageURL}
+                        productType={this.props.productType}
+                    />
                     <Toggler togglePlayerFn={this.props.togglePlayerFn} isPlaying={this.props.isPlaying} />
                     <MiddleComponent
                         artists={this.props.artists}

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import '../css/progressBar.scss'
 
 export interface ProgressBarProps {
     progress: number,

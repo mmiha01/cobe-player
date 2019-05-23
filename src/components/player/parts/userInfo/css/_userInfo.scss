@@ -1,0 +1,30 @@
+#user-info-container {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 72px;
+    background: rgba($color: #000000, $alpha: 0.2);
+    padding: 6px;
+}
+
+#user-info-image {
+    float: left;
+    width: 30%;
+    height: 100%;
+
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }
+}
+
+#user-info-text {
+    padding-top: 4px;
+    float: left;
+    width: 70%;
+    height: 100%;
+}

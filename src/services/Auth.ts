@@ -24,7 +24,7 @@ export class AuthService {
             if (response && response.error) {
                 return false
             }
-            return true
+            return response
         })
     }
 

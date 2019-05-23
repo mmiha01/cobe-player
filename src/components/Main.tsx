@@ -8,6 +8,7 @@ import images from '../images'
 import { Loader } from './loader/js/Loader';
 import { Login } from './login/js/Login';
 import { Menu } from './menu/js/Menu';
+import { userInfo } from 'os';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -28,6 +29,9 @@ interface State {
     repeatMode: string,
     shuffle: boolean,
     menuOpened: boolean,
+    userName: string,
+    productType: string,
+    imageURL: string,
 }
 
 interface DevicesList {
@@ -67,6 +71,16 @@ interface ErrorInterface {
     message: string,
  }
 
+interface UserInterface {
+    display_name: string,
+    product: string,
+    images: UserImages[],
+}
+
+interface UserImages {
+    url: string,
+}
+
 export class Main extends React.Component<MainProps, State> {
 
     state = {
@@ -86,6 +100,9 @@ export class Main extends React.Component<MainProps, State> {
         repeatMode: '',
         shuffle: false,
         menuOpened: false,
+        userName: '',
+        productType: '',
+        imageURL: '',
     }
 
     toggleMenu = () => {
@@ -143,8 +160,19 @@ export class Main extends React.Component<MainProps, State> {
         console.log(err)
     }
 
+    parseUserInfo = (user: UserInterface) => {
+        const image = (user.images[0] && user.images[0].url) || null
+        if (image) {
+            this.setState({ imageURL: image })
+        }
+        this.setState({
+            userName: user.display_name,
+            productType: user.product,
+        })
+    }
+
     checkAuthAndPlayer = () => {
-        AuthService.isUserLoggedIn().then((response) => {
+        AuthService.isUserLoggedIn().then((response: UserInterface) => {
             if (!response) {
                 this.setState({
                     isAuthorized: false,
@@ -157,6 +185,7 @@ export class Main extends React.Component<MainProps, State> {
                 isAuthorized: true,
                 didCheckAuthState: true,
             })
+            this.parseUserInfo(response)
             return true
         }).then((passedAuthorization) => {
             if (passedAuthorization) {
@@ -265,6 +294,9 @@ export class Main extends React.Component<MainProps, State> {
                     </div>
                     <Menu menuOpened={this.state.menuOpened} toggleMenu={this.toggleMenu} />
                     <Player
+                    userName={this.state.userName}
+                    productType={this.state.productType}
+                    imageURL={this.state.imageURL}
                     isActive={this.state.isActive}
                     isAuthorized={this.state.isAuthorized}
                     isPlaying={this.state.isPlaying}
