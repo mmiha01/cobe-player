@@ -10,6 +10,7 @@ const playIcon = require('./images/play.svg')
 const pauseIcon = require('./images/pause.svg')
 const menuIcon = require('./images/menu.svg')
 const closeIcon = require('./images/close.svg')
+const userIcon = require('./images/user.svg')
 
 export default {
     logoLarge,
@@ -24,4 +25,5 @@ export default {
     pauseIcon,
     menuIcon,
     closeIcon,
+    userIcon
 }

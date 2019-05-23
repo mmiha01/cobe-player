@@ -9,10 +9,11 @@ export interface UserInfoProps {
 
 export class UserInfo extends React.Component<UserInfoProps, {}> {
     render() {
+        const imageToUse = this.props.imageURL.length ? this.props.imageURL : images.userIcon
         return (
             <div id='user-info-container'>
                 <div id='user-info-image'>
-                    <img src={this.props.imageURL} alt='' />
+                    <img src={imageToUse} alt='' />
                 </div>
                 <div id='user-info-text'>
                     <div id='user-info-username'>

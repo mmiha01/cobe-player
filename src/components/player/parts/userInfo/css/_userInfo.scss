@@ -1,11 +1,11 @@
 #user-info-container {
     display: block;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 200px;
+    top: 4px;
+    left: 4px;
+    width: 260px;
     height: 72px;
-    background: rgba($color: #000000, $alpha: 0.2);
+    background: transparent;
     padding: 6px;
 }
 
@@ -13,6 +13,7 @@
     float: left;
     width: 30%;
     height: 100%;
+    max-width: 60px;
 
     img {
         display: block;
@@ -23,8 +24,17 @@
 }
 
 #user-info-text {
+    text-align: left;
     padding-top: 4px;
+    padding-left: 10px;
     float: left;
     width: 70%;
     height: 100%;
+}
+
+#user-info-product-type {
+    text-transform: capitalize;
+    padding: 2px 4px;
+    border: 1px solid $cobe-dark;
+    border-radius: 4px;
 }
