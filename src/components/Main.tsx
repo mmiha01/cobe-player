@@ -262,6 +262,20 @@ export class Main extends React.Component<MainProps, State> {
         this.setState({ isPlaying: true })
     }
 
+    setPlayerProgress = (val: number) => {
+        const newProgress = Math.floor(val * this.state.duration)
+        PlayerNetworkService.changeProgress(newProgress).then(() => {
+            this.setState({ progress: newProgress })
+        })
+    }
+
+    setPlayerVolume = (val: number) => {
+        val = Math.min(Math.floor(val), 100)
+        PlayerNetworkService.setVolume(val).then(() => {
+            this.setState({ volume: val })
+        })
+    }
+
     componentWillMount() {
         this.checkAuthAndPlayer()
     }
@@ -315,6 +329,8 @@ export class Main extends React.Component<MainProps, State> {
                     nextFn={this.playNextSong}
                     prevFn={this.playPreviousSong}
                     shuffleFn={this.playerShuffle}
+                    progressUpdateCallBack={this.setPlayerProgress}
+                    volumeUpdateCallBack={this.setPlayerVolume}
                     />
                 </div>
             )

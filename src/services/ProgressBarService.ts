@@ -12,10 +12,6 @@ export default class ProgressBarService {
         this.currentX = null
         this.allowMoving = false
         this.callbackFunction = callback
-
-        if (!this.progressContainer) {
-            return
-        }
     }
 
     startHandler = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -34,7 +30,7 @@ export default class ProgressBarService {
 
     endHandler = (e: React.MouseEvent<HTMLDivElement>) => {
         if (this.allowMoving) {
-            this.callbackFunction(this.currentX)
+            this.callbackFunction(this.currentX / window.innerWidth)
         }
         this.allowMoving = false
     }

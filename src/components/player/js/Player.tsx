@@ -28,20 +28,14 @@ export interface PlayerProps {
     shuffleFn: () => void,
     nextFn: () => void,
     prevFn: () => void,
+    progressUpdateCallBack: (a: number) => void,
+    volumeUpdateCallBack: (a: number) => void,
 }
 
 export class Player extends React.Component<PlayerProps, {}> {
 
-    progressUpdateCallBack = (val: number) => {
-        console.log(val)
-    }
-
     // tslint:disable-next-line: member-ordering
-    progressChanger = new ProgressBarService(this.progressUpdateCallBack)
-
-    endHandler = () => {
-        console.log(9991)
-    }
+    progressChanger = new ProgressBarService(this.props.progressUpdateCallBack)
 
     render() {
         if (!this.props.isActive) {
@@ -71,7 +65,7 @@ export class Player extends React.Component<PlayerProps, {}> {
                         nextFn={this.props.nextFn}
                         prevFn={this.props.prevFn}
                     />
-                    <Slider volume={this.props.volume} />
+                    <Slider volume={this.props.volume} volumeUpdateCallBack={this.props.volumeUpdateCallBack} />
                 </div>
                 <ProgressBar
                 progress={this.props.progress}

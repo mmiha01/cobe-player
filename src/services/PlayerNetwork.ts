@@ -47,4 +47,12 @@ export class PlayerNetworkService {
     static changeRepeatMode = (state: string) => {
         return NetworkService.makeRequest(`/me/player/repeat?state=${state}`, 'PUT')
     }
+
+    static changeProgress = (val: number) => {
+        return NetworkService.makeRequest(`/me/player/seek?position_ms=${val}`, 'PUT')
+    }
+
+    static setVolume = (val: number) => {
+        return NetworkService.makeRequest(`/me/player/volume?volume_percent=${val}`, 'PUT')
+    }
 }
