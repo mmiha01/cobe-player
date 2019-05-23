@@ -24,7 +24,11 @@ export default class VolumeSliderService {
         document.getElementById('volume-text-display').textContent = Math.floor((100 - valToSet)).toString() + '%'
     }
 
+    /**
+     * Staviti Timeout za detekciju jeli napustio miš prostor
+     */
     moveHandler =  (e: React.MouseEvent<HTMLDivElement>) => {
+        console.log(123)
         if (!this.allowMoving) {
             return false
         }

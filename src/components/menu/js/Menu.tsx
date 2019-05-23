@@ -6,6 +6,10 @@ export interface MenuInterface {
     toggleMenu: () => void,
 }
 
+/**
+ * Ovdje ubaciti state za menu otvaranje
+ */
+
 export class Menu extends React.Component<MenuInterface, {}> {
 
     getRightPos = () => {
