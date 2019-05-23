@@ -8,7 +8,9 @@ export interface ProgressBarProps {
 export class ProgressBar extends React.Component<ProgressBarProps, {}> {
     render() {
         return (
-            <div id='progress-bar' style={{width: (this.props.progress / this.props.duration) * 100 + '%'}}></div>
+            <div id='progress-bar'>
+                <div id='progress-inner' style={{width: (this.props.progress / this.props.duration) * 100 + '%'}}></div>
+            </div>
         )
     }
 }

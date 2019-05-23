@@ -8,7 +8,6 @@ import images from '../images'
 import { Loader } from './loader/js/Loader';
 import { Login } from './login/js/Login';
 import { Menu } from './menu/js/Menu';
-import { userInfo } from 'os';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -218,13 +217,15 @@ export class Main extends React.Component<MainProps, State> {
 
     playNextSong = () => {
         PlayerNetworkService.playNextTrack().then(() => {
-            setTimeout(this.updatePlayerInformation, 500)
+            const waitBeforeNewRequest = 500
+            setTimeout(this.updatePlayerInformation, waitBeforeNewRequest)
         })
     }
 
     playPreviousSong = () => {
         PlayerNetworkService.playPreviousTrack().then(() => {
-            setTimeout(this.updatePlayerInformation, 500)
+            const waitBeforeNewRequest = 500
+            setTimeout(this.updatePlayerInformation, waitBeforeNewRequest)
         })
     }
 
