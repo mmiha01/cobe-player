@@ -2,9 +2,10 @@ import * as React from 'react'
 import { NoDevices } from '../parts/noDevices/js/NoDevices'
 import { Toggler } from '../parts/toggler/js/Toggler'
 import { MiddleComponent } from '../parts/middleComponent/js/MiddleComponent'
-import { ProgressBar } from '../parts/progressBar/js/ProgressBar';
-import { Slider } from '../parts/slider/js/Slider';
-import { UserInfo } from '../parts/userInfo/js/UserInfo';
+import { ProgressBar } from '../parts/progressBar/js/ProgressBar'
+import { Slider } from '../parts/slider/js/Slider'
+import { UserInfo } from '../parts/userInfo/js/UserInfo'
+import ProgressBarService from '@/services/ProgressBarService'
 
 export interface PlayerProps {
     userName: string,
@@ -30,6 +31,18 @@ export interface PlayerProps {
 }
 
 export class Player extends React.Component<PlayerProps, {}> {
+
+    progressUpdateCallBack = (val: number) => {
+        console.log(val)
+    }
+
+    // tslint:disable-next-line: member-ordering
+    progressChanger = new ProgressBarService(this.progressUpdateCallBack)
+
+    endHandler = () => {
+        console.log(9991)
+    }
+
     render() {
         if (!this.props.isActive) {
             return (
@@ -37,7 +50,10 @@ export class Player extends React.Component<PlayerProps, {}> {
             )
         }
         return (
-            <div className='hero'>
+            <div className='hero'
+                onMouseMove={this.progressChanger.moveHandler}
+                onMouseUp={this.progressChanger.endHandler}
+            >
                 <div className='hero-item large-hero'>
                     <UserInfo
                         userName={this.props.userName}
@@ -57,7 +73,12 @@ export class Player extends React.Component<PlayerProps, {}> {
                     />
                     <Slider volume={this.props.volume} />
                 </div>
-                <ProgressBar progress={this.props.progress} duration={this.props.duration} />
+                <ProgressBar
+                progress={this.props.progress}
+                duration={this.props.duration}
+                changeFn={this.progressChanger.startHandler}
+                updateFn={this.progressChanger.updateElements}
+                />
             </div>
         )
     }
