@@ -9,7 +9,7 @@ interface State {
     volume: number,
 }
 
-export class Slider extends React.Component<SliderProps, {}> {
+export class Slider extends React.Component<SliderProps, State> {
 
     state = {
         volume: this.props.volume,

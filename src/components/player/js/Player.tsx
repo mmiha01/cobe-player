@@ -5,7 +5,6 @@ import { MiddleComponent } from '../parts/middleComponent/js/MiddleComponent'
 import { ProgressBar } from '../parts/progressBar/js/ProgressBar'
 import { Slider } from '../parts/slider/js/Slider'
 import { UserInfo } from '../parts/userInfo/js/UserInfo'
-import ProgressBarService from '@/services/ProgressBarService'
 
 export interface PlayerProps {
     userName: string,

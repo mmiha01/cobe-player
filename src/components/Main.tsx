@@ -262,13 +262,6 @@ export class Main extends React.Component<MainProps, State> {
         this.setState({ isPlaying: true })
     }
 
-    setPlayerProgress = (val: number) => {
-        const newProgress = Math.floor(val * this.state.duration)
-        PlayerNetworkService.changeProgress(newProgress).then(() => {
-            this.setState({ progress: newProgress })
-        })
-    }
-
     componentWillMount() {
         this.checkAuthAndPlayer()
     }
