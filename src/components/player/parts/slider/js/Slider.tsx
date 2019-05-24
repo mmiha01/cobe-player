@@ -1,44 +1,74 @@
 import * as React from 'react'
-import VolumeSliderService from '@/services/VolumeSliderService';
+import { PlayerNetworkService } from '@/services/PlayerNetwork'
 
 export interface SliderProps {
     volume: number,
-    volumeUpdateCallBack: (a: number) => void,
+}
+
+interface State {
+    volume: number,
 }
 
 export class Slider extends React.Component<SliderProps, {}> {
-    sliderService = new VolumeSliderService(this.props.volumeUpdateCallBack)
-    container = React.createRef<HTMLDivElement>()
 
-    componentDidMount() {
-        this.sliderService.updateElements()
+    state = {
+        volume: this.props.volume,
     }
 
+    mainContainer = React.createRef<HTMLDivElement>()
+    container = React.createRef<HTMLDivElement>()
+    sliderHandle = React.createRef<HTMLDivElement>()
+    allowMoving = false
+    currentY = 0
+    currentPercentage = this.props.volume
 
-    // startHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    //     this.allowMoving = true
-    //     this.currentY =  e.pageY - this.getAbsPos()
-    //     const valToSet = Math.max(0, ((this.currentY / this.container.current.offsetHeight) * 100))
-    //     this.volumeHandle.style.top = valToSet.toString() + '%'
+    updatePositions = (currentY: number) => {
+        this.currentY = currentY - this.getAbsPos()
+        const percentageToSet = Math.floor(((this.currentY / this.container.current.offsetHeight) * 100))
+        const forceBellowHundred = 100 - Math.max(percentageToSet, 0)
+        this.setState({  volume: Math.max(0, forceBellowHundred) })
+    }
 
-    //     document.getElementById('volume-text-display').textContent = Math.floor((100 - valToSet)).toString() + '%'
-    // }
+    getAbsPos = () => {
+        return this.mainContainer.current.parentElement.offsetTop + this.mainContainer.current.offsetTop
+    }
+
+    startHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+        this.allowMoving = true
+        this.updatePositions(e.pageY)
+    }
+
+    moveHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!this.allowMoving) {
+            return false
+        }
+        this.updatePositions(e.pageY)
+    }
+
+    endHandler = () => {
+        if (this.allowMoving) {
+            PlayerNetworkService.setVolume(this.state.volume)
+        }
+        this.allowMoving = false
+    }
 
     render() {
         return (
             <div
-                ref={this.container}
+                ref={this.mainContainer}
                 id='volume-slider-container'
                 className='hero abs-pos-hero right-side-hero pointer'
-                onMouseMove={this.sliderService.moveHandler}
-                onMouseUp={this.sliderService.endHandler}
-                onMouseDown={this.sliderService.startHandler}
+                onMouseDown={this.startHandler}
+                onMouseMove={this.moveHandler}
+                onMouseUp={this.endHandler}
+                onMouseLeave={this.endHandler}
             >
-            <div id='volume-slider'>
+            <div id='volume-slider' ref={this.container}>
                 <div id='volume-slider-handle'
-                    style={{top: (100 - this.props.volume) + '%'}}
+                    style={{top: (100 - this.state.volume) + '%'}}
+                    ref={this.sliderHandle}
                 >
-                    <div id='volume-text-display'><p>{this.props.volume + '%'}</p></div>
+                    <div id='volume-text-display'><p>{this.state.volume + '%'}</p></div>
                 </div>
             </div>
         </div>

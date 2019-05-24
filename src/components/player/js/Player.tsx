@@ -28,14 +28,9 @@ export interface PlayerProps {
     shuffleFn: () => void,
     nextFn: () => void,
     prevFn: () => void,
-    progressUpdateCallBack: (a: number) => void,
-    volumeUpdateCallBack: (a: number) => void,
 }
 
 export class Player extends React.Component<PlayerProps, {}> {
-
-    // tslint:disable-next-line: member-ordering
-    progressChanger = new ProgressBarService(this.props.progressUpdateCallBack)
 
     render() {
         if (!this.props.isActive) {
@@ -44,10 +39,7 @@ export class Player extends React.Component<PlayerProps, {}> {
             )
         }
         return (
-            <div className='hero'
-                onMouseMove={this.progressChanger.moveHandler}
-                onMouseUp={this.progressChanger.endHandler}
-            >
+            <div className='hero'>
                 <div className='hero-item large-hero'>
                     <UserInfo
                         userName={this.props.userName}
@@ -65,13 +57,11 @@ export class Player extends React.Component<PlayerProps, {}> {
                         nextFn={this.props.nextFn}
                         prevFn={this.props.prevFn}
                     />
-                    <Slider volume={this.props.volume} volumeUpdateCallBack={this.props.volumeUpdateCallBack} />
+                    <Slider volume={this.props.volume} />
                 </div>
                 <ProgressBar
                 progress={this.props.progress}
                 duration={this.props.duration}
-                changeFn={this.progressChanger.startHandler}
-                updateFn={this.progressChanger.updateElements}
                 />
             </div>
         )
