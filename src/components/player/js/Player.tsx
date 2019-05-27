@@ -4,9 +4,11 @@ import { Toggler } from '../parts/toggler/js/Toggler'
 import { MiddleComponent } from '../parts/middleComponent/js/MiddleComponent'
 import { ProgressBar } from '../parts/progressBar/js/ProgressBar'
 import { Slider } from '../parts/slider/js/Slider'
-import { UserInfo } from '../parts/userInfo/js/UserInfo'
+import { UserInfo } from '../../userInfo/js/UserInfo'
 import { AuthService } from '@/services/Auth';
 import { PlayerNetworkService } from '@/services/PlayerNetwork';
+import { UserInterface } from '@/interfaces/UserInfo'
+import { ErrorInterface } from '@/interfaces/ErrorInterface'
 
 export interface PlayerProps {
     userName: string,
@@ -15,11 +17,6 @@ export interface PlayerProps {
     isAuthorized: boolean,
     parseResponseError: (err: ErrorInterface, fn: () => void) => void,
 }
-
-interface ErrorInterface {
-    status: number,
-    message: string,
- }
 
 interface DevicesList {
     id: number,
@@ -51,16 +48,6 @@ interface Artists {
 
 interface Album {
     name: string,
-}
-
-interface UserInterface {
-    display_name: string,
-    product: string,
-    images: UserImages[],
-}
-
-interface UserImages {
-    url: string,
 }
 
 interface State {

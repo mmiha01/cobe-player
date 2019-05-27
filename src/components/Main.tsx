@@ -10,6 +10,8 @@ import { Login } from './login/js/Login';
 import { Menu } from './menu/js/Menu';
 import { RouteService } from '@/services/RouteService';
 import { Explore } from './explore/js/Explore';
+import { UserInterface } from '@/interfaces/UserInfo'
+import { ErrorInterface } from '@/interfaces/ErrorInterface'
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -21,21 +23,6 @@ interface State {
     productType: string,
     imageURL: string,
     currentRoute: string,
-}
-
-interface ErrorInterface {
-    status: number,
-    message: string,
- }
-
-interface UserInterface {
-    display_name: string,
-    product: string,
-    images: UserImages[],
-}
-
-interface UserImages {
-    url: string,
 }
 
 export class Main extends React.Component<MainProps, State> {
@@ -161,7 +148,13 @@ export class Main extends React.Component<MainProps, State> {
                         toggleMenu={this.toggleMenu}
                         pushRoute={this.pushRoute}
                     />
-                    <Explore />
+                    <Explore
+                        userName={this.state.userName}
+                        productType={this.state.productType}
+                        imageURL={this.state.imageURL}
+                        parseResponseError={this.parseResponseError}
+                        isAuthorized={this.state.isAuthorized}
+                    />
                 </div>
             )
         } else if (this.routeUpdater.isRoute('profile')) {
