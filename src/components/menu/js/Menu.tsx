@@ -12,20 +12,20 @@ export interface MenuInterface {
 
 export class Menu extends React.Component<MenuInterface, {}> {
 
-    getRightPos = () => {
+    HTMLElementMenu = React.createRef<HTMLDivElement>()
+
+    componentDidUpdate() {
         if (this.props.menuOpened) {
-            return {
-                right: '0'
-            }
+            this.HTMLElementMenu.current.classList.add('opened-menu')
+            return
         }
-        return {
-            right: '-100%'
-        }
+        this.HTMLElementMenu.current.classList.remove('opened-menu')
+        return
     }
 
     render() {
         return (
-            <div className='hero hero-menu' style={this.getRightPos()}>
+            <div className='hero hero-menu' ref={this.HTMLElementMenu}>
                 <div className='pointer menu-opener' onClick={this.props.toggleMenu} >
                     <img src={images.closeIcon} alt='' />
                 </div>

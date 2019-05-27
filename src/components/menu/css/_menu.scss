@@ -1,9 +1,14 @@
 .hero-menu {
     position: fixed;
     top: 0;
-    right: -100%;
-    transition: right .4s ease-out;
+    right: 0;
+    transition: transform .4s ease-out;
     width: 100%;
     background: $cobe-light;
     z-index: 900;
+    transform: translateX(100%)
+}
+
+.opened-menu {
+    transform: translateX(0%);
 }
