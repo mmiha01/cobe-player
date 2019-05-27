@@ -9,6 +9,7 @@ import { Loader } from './loader/js/Loader';
 import { Login } from './login/js/Login';
 import { Menu } from './menu/js/Menu';
 import { RouteService } from '@/services/RouteService';
+import { Explore } from './explore/js/Explore';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -160,7 +161,7 @@ export class Main extends React.Component<MainProps, State> {
                         toggleMenu={this.toggleMenu}
                         pushRoute={this.pushRoute}
                     />
-                    <div>explore route</div>
+                    <Explore />
                 </div>
             )
         } else if (this.routeUpdater.isRoute('profile')) {
