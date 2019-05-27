@@ -4,6 +4,7 @@ import images from '../../../images';
 export interface MenuInterface {
     menuOpened: boolean,
     toggleMenu: () => void,
+    pushRoute: (a: string) => void,
 }
 
 /**
@@ -13,6 +14,10 @@ export interface MenuInterface {
 export class Menu extends React.Component<MenuInterface, {}> {
 
     HTMLElementMenu = React.createRef<HTMLDivElement>()
+
+    setRouteUpdates = (route: string) => {
+        this.props.pushRoute(route)
+    }
 
     componentDidUpdate() {
         if (this.props.menuOpened) {
@@ -30,9 +35,9 @@ export class Menu extends React.Component<MenuInterface, {}> {
                     <img src={images.closeIcon} alt='' />
                 </div>
                 <div className='hero-item'>
-                    <h1 className='pointer'>Player</h1>
-                    <h1 className='pointer'>Explore</h1>
-                    <h1 className='pointer'>Profile</h1>
+                    <h1 className='pointer' onClick={() => this.setRouteUpdates('player')}>Player</h1>
+                    <h1 className='pointer' onClick={() => this.setRouteUpdates('explore')}>Explore</h1>
+                    <h1 className='pointer' onClick={() => this.setRouteUpdates('profile')}>Profile</h1>
                 </div>
             </div>
         )

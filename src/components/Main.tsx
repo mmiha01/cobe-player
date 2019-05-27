@@ -8,6 +8,7 @@ import images from '../images'
 import { Loader } from './loader/js/Loader';
 import { Login } from './login/js/Login';
 import { Menu } from './menu/js/Menu';
+import { RouteService } from '@/services/RouteService';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -18,6 +19,7 @@ interface State {
     userName: string,
     productType: string,
     imageURL: string,
+    currentRoute: string,
 }
 
 interface ErrorInterface {
@@ -44,6 +46,18 @@ export class Main extends React.Component<MainProps, State> {
         userName: '',
         productType: '',
         imageURL: '',
+        currentRoute: ''
+    }
+
+    routeUpdaterCallback = (currentRoute: string) => {
+        this.setState({ currentRoute, menuOpened: false })
+    }
+
+    // tslint:disable-next-line: member-ordering
+    routeUpdater: RouteService = new RouteService(this.routeUpdaterCallback)
+
+    pushRoute = (route: string) => {
+        this.routeUpdater.pushRoute(route)
     }
 
     toggleMenu = () => {
@@ -102,7 +116,7 @@ export class Main extends React.Component<MainProps, State> {
     }
 
     render() {
-        if (window.location.pathname === '/auth') {
+        if (this.routeUpdater.isRoute('auth')) {
             AuthService.getTokenFromLocationHash()
             window.location.href = window.location.origin
             return (<div>Pričekajte trenutak...</div>)
@@ -115,13 +129,17 @@ export class Main extends React.Component<MainProps, State> {
             return (
                 <Login redirectFn={AuthService.redirectToLogin} />
             )
-        } else {
+        } else if (this.routeUpdater.isRoute('player') || this.routeUpdater.isRoute('') ) {
             return (
                 <div id='main-inner'>
                     <div className='pointer menu-opener' onClick={this.toggleMenu} >
                         <img src={images.menuIcon} alt='' />
                     </div>
-                    <Menu menuOpened={this.state.menuOpened} toggleMenu={this.toggleMenu} />
+                    <Menu
+                        menuOpened={this.state.menuOpened}
+                        toggleMenu={this.toggleMenu}
+                        pushRoute={this.pushRoute}
+                    />
                     <Player
                     userName={this.state.userName}
                     productType={this.state.productType}
@@ -129,6 +147,34 @@ export class Main extends React.Component<MainProps, State> {
                     parseResponseError={this.parseResponseError}
                     isAuthorized={this.state.isAuthorized}
                     />
+                </div>
+            )
+        } else if (this.routeUpdater.isRoute('explore')) {
+            return (
+                <div id='main-inner'>
+                    <div className='pointer menu-opener' onClick={this.toggleMenu} >
+                        <img src={images.menuIcon} alt='' />
+                    </div>
+                    <Menu
+                        menuOpened={this.state.menuOpened}
+                        toggleMenu={this.toggleMenu}
+                        pushRoute={this.pushRoute}
+                    />
+                    <div>explore route</div>
+                </div>
+            )
+        } else if (this.routeUpdater.isRoute('profile')) {
+            return (
+                <div id='main-inner'>
+                    <div className='pointer menu-opener' onClick={this.toggleMenu} >
+                        <img src={images.menuIcon} alt='' />
+                    </div>
+                    <Menu
+                        menuOpened={this.state.menuOpened}
+                        toggleMenu={this.toggleMenu}
+                        pushRoute={this.pushRoute}
+                    />
+                    <div>profile route</div>
                 </div>
             )
         }
