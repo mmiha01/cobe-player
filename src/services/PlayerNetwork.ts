@@ -55,4 +55,11 @@ export class PlayerNetworkService {
     static setVolume = (val: number) => {
         return NetworkService.makeRequest(`/me/player/volume?volume_percent=${val}`, 'PUT')
     }
+
+    static setTrack = (val: string) => {
+        return NetworkService.makeRequest(`/me/player/volume?volume_percent=${val}`, 'PUT', {
+            foo: false,
+            a: 2
+        })
+    }
 }
