@@ -17,18 +17,28 @@ interface Artist {
 interface CategoryItemFromResponse {
     id: number,
     name: string,
-
-    images?: any,
+    images?: Image[]
     artists: Artist[]
 }
 
+interface Image {
+    url: string,
+}
+
+interface StateCategory {
+    id: number,
+    name: string,
+    image: string,
+    artists: string
+}
+
 interface State {
-    items: CategoryItemFromResponse[],
+    items: StateCategory[],
 }
 
 export class Category extends React.Component<CategoryInterface, State> {
     state = {
-        items: [],
+        items: [] as StateCategory[],
     }
 
     getRecommended = () => {

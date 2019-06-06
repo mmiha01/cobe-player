@@ -12,6 +12,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "sass": "^1.20.1",
+    "source-map-explorer": "^2.0.0",
     "tslint": "^5.16.0"
   },
   "devDependencies": {
@@ -42,11 +43,10 @@
     "test": "test",
     "dev": "webpack-dev-server",
     "build": "npx webpack --config webpack.production.config.js",
-    "lint": "tslint 'src/**/*.tsx'"
+    "lint": "tslint 'src/**/*.tsx'",
+    "analyze": "source-map-explorer ./dist/bundle.js"
   },
-  "pre-commit": [
-
-  ],
+  "pre-commit": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mmiha01/cobe-player.git"
