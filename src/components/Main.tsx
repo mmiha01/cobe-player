@@ -13,6 +13,7 @@ import { Explore } from './explore/js/Explore';
 import { UserInterface } from '@/interfaces/UserInfo'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
 import { Burger } from './burger/js/Burger';
+import { Route } from './Route/js/Route';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -105,6 +106,11 @@ export class Main extends React.Component<MainProps, State> {
     }
 
     render() {
+
+        // return (
+        //     <Route route={'player'} component={'Burger'} isRoute={this.routeUpdater.isRoute} />
+        // )
+
         if (this.routeUpdater.isRoute('auth')) {
             AuthService.getTokenFromLocationHash()
             window.location.href = window.location.origin
