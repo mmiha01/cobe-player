@@ -34,3 +34,23 @@
           opacity: 1;
       }
   }
+
+@media only screen and (max-width: 1314px) {
+    .explore-child {
+        width: 33%;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .explore-child {
+        width: 50%;
+        height: auto;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .explore-child {
+        width: 100%;
+        height: auto;
+    }
+}
