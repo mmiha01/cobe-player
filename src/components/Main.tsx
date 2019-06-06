@@ -14,6 +14,7 @@ import { UserInterface } from '@/interfaces/UserInfo'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
 import { Burger } from './burger/js/Burger';
 import { Route } from './Route/js/Route';
+import { Profile } from './profile/js/Profile';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -169,7 +170,7 @@ export class Main extends React.Component<MainProps, State> {
                         toggleMenu={this.toggleMenu}
                         pushRoute={this.pushRoute}
                     />
-                    <div>profile route</div>
+                    <Profile />
                 </div>
             )
         }
