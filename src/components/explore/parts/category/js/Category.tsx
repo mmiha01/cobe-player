@@ -58,7 +58,7 @@ export class Category extends React.Component<CategoryInterface, State> {
             const item = {
                 id: i,
                 name: a.name,
-                image: a.images[1].url,
+                image: a.images[0].url,
                 artists: artists.slice(0, -2),
                 trackURI: a.uri,
             }

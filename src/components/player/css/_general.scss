@@ -22,3 +22,29 @@
     width: 10%;
     padding: 18px 0
   }
+
+  @media only screen and (max-width: 680px) {
+    .left-side-hero {
+      left: 0;
+      top: 0;
+      height: 50%;
+      width: 90%;
+
+      .hero-item {
+        position: absolute;
+        bottom: 10px;
+      }
+    }
+
+    .middle-side-hero {
+      left: 0;
+      top: 50%;
+      height: 50%;      
+      width: 90%;
+
+      .hero-item {
+        position: absolute;
+        top: 10px;
+      }          
+    }
+}
