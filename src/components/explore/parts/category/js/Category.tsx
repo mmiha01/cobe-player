@@ -18,22 +18,17 @@ interface CategoryItemFromResponse {
     id: number,
     name: string,
 
-    // !!
-    // tslint:disable-next-line: no-any
     images?: any,
     artists: Artist[]
 }
 
 interface State {
-    // tslint:disable-next-line: no-any
-    items: any
+    items: CategoryItemFromResponse[],
 }
 
 export class Category extends React.Component<CategoryInterface, State> {
     state = {
-
-        // !!
-        items: [false],
+        items: [],
     }
 
     getRecommended = () => {
