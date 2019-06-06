@@ -12,6 +12,7 @@ import { RouteService } from '@/services/RouteService';
 import { Explore } from './explore/js/Explore';
 import { UserInterface } from '@/interfaces/UserInfo'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
+import { Burger } from './burger/js/Burger';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -58,7 +59,7 @@ export class Main extends React.Component<MainProps, State> {
 
     parseResponseError = (err: ErrorInterface, fn: () => void) => {
         if (err.status === 401) {
-            this.setState({isAuthorized: false})
+            this.setState({ isAuthorized: false })
         } else if (err.status === 429) {
             console.log(429)
         }
@@ -120,9 +121,7 @@ export class Main extends React.Component<MainProps, State> {
         } else if (this.routeUpdater.isRoute('player') || this.routeUpdater.isRoute('') ) {
             return (
                 <div id='main-inner'>
-                    <div className='pointer menu-opener' onClick={this.toggleMenu} >
-                        <img src={images.menuIcon} alt='' />
-                    </div>
+                    <Burger toggleMenu={this.toggleMenu} />
                     <Menu
                         menuOpened={this.state.menuOpened}
                         toggleMenu={this.toggleMenu}
@@ -140,9 +139,7 @@ export class Main extends React.Component<MainProps, State> {
         } else if (this.routeUpdater.isRoute('explore')) {
             return (
                 <div id='main-inner'>
-                    <div className='pointer menu-opener' onClick={this.toggleMenu} >
-                        <img src={images.menuIcon} alt='' />
-                    </div>
+                    <Burger toggleMenu={this.toggleMenu} />
                     <Menu
                         menuOpened={this.state.menuOpened}
                         toggleMenu={this.toggleMenu}
@@ -160,9 +157,7 @@ export class Main extends React.Component<MainProps, State> {
         } else if (this.routeUpdater.isRoute('profile')) {
             return (
                 <div id='main-inner'>
-                    <div className='pointer menu-opener' onClick={this.toggleMenu} >
-                        <img src={images.menuIcon} alt='' />
-                    </div>
+                    <Burger toggleMenu={this.toggleMenu} />
                     <Menu
                         menuOpened={this.state.menuOpened}
                         toggleMenu={this.toggleMenu}
