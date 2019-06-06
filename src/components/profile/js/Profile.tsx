@@ -62,7 +62,7 @@ export class Profile extends React.Component<{}, State> {
                     <h1>{this.state.display_name}</h1>
                     <p className='product-type-text'>
                         {this.state.country} | {this.state.product} | {this.state.followers.total || 0}x Followers</p>
-                    <h3>{this.state.email}</h3>
+                    <p>{this.state.email}</p>
                 </div>
             </div>
         )

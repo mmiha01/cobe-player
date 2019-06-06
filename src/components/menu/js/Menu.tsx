@@ -35,9 +35,9 @@ export class Menu extends React.Component<MenuInterface, {}> {
                     <img src={images.closeIcon} alt='' />
                 </div>
                 <div className='hero-item'>
-                    <h1 className='pointer' onClick={() => this.setRouteUpdates('player')}>Player</h1>
-                    <h1 className='pointer' onClick={() => this.setRouteUpdates('explore')}>Explore</h1>
-                    <h1 className='pointer' onClick={() => this.setRouteUpdates('profile')}>Profile</h1>
+                    <h1 className='pointer no-select' onClick={() => this.setRouteUpdates('player')}>Player</h1>
+                    <h1 className='pointer no-select' onClick={() => this.setRouteUpdates('explore')}>Explore</h1>
+                    <h1 className='pointer no-select' onClick={() => this.setRouteUpdates('profile')}>Profile</h1>
                 </div>
             </div>
         )
