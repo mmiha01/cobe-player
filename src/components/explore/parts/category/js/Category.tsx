@@ -2,8 +2,6 @@ import * as React from 'react'
 import { NetworkService } from '@/services/Network'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
 import { CategorySingle } from '../CategorySingle';
-import { Interface } from 'readline';
-import { string, number } from 'prop-types';
 
 export interface CategoryInterface {
     isAuthorized: boolean,
@@ -19,6 +17,7 @@ interface CategoryItemFromResponse {
     name: string,
     images?: Image[]
     artists: Artist[]
+    uri: string,
 }
 
 interface Image {
@@ -29,7 +28,8 @@ interface StateCategory {
     id: number,
     name: string,
     image: string,
-    artists: string
+    artists: string,
+    trackURI: string,
 }
 
 interface State {
@@ -42,7 +42,7 @@ export class Category extends React.Component<CategoryInterface, State> {
     }
 
     getRecommended = (offset: number = 0) => {
-        NetworkService.makeRequest('/browse/new-releases?limit=50&offset=' + offset).then((a) => {
+        NetworkService.makeRequest('/browse/new-releases?limit=50&offset=' + offset, 'GET').then((a) => {
             this.parseRecommendeds(a.albums.items)
         })
     }
@@ -60,6 +60,7 @@ export class Category extends React.Component<CategoryInterface, State> {
                 name: a.name,
                 image: a.images[1].url,
                 artists: artists.slice(0, -2),
+                trackURI: a.uri,
             }
             arr.push(item)
             i++

@@ -1,15 +1,15 @@
 import * as React from 'react'
 
-export interface CategorySingleInterface {
-    // tslint:disable-next-line: no-any
-    items: any
-}
-
 interface CategoryItem {
     id: number,
     name: string,
     image: string,
     artists: string,
+    trackURI: string,
+}
+
+export interface CategorySingleInterface {
+    items: CategoryItem[]
 }
 
 export class CategorySingle extends React.Component<CategorySingleInterface, {}> {
