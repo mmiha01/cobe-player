@@ -22,6 +22,7 @@ export class RouteService {
     }
 
     getCurrentRoute() {
-        return window.location.pathname.substring(1)
+        const cutSlash = window.location.pathname.substring(1)
+        return cutSlash.length ? cutSlash : 'player'
     }
 }
