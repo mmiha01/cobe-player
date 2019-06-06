@@ -41,8 +41,8 @@ export class Category extends React.Component<CategoryInterface, State> {
         items: [] as StateCategory[],
     }
 
-    getRecommended = () => {
-        NetworkService.makeRequest('/browse/new-releases?limit=50').then((a) => {
+    getRecommended = (offset: number = 0) => {
+        NetworkService.makeRequest('/browse/new-releases?limit=50&offset=' + offset).then((a) => {
             this.parseRecommendeds(a.albums.items)
         })
     }
@@ -65,6 +65,10 @@ export class Category extends React.Component<CategoryInterface, State> {
             i++
         }
         this.setState({ items: arr })
+    }
+
+    foo = () => {
+        console.log(123)
     }
 
     componentWillMount() {
