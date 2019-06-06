@@ -109,7 +109,7 @@ export class Main extends React.Component<MainProps, State> {
     render() {
 
         // return (
-        //     <Route route={'player'} component={'Burger'} isRoute={this.routeUpdater.isRoute} />
+        //     <Route route={'player'} component={'Player'} isRoute={this.routeUpdater.isRoute} />
         // )
 
         if (this.routeUpdater.isRoute('auth')) {

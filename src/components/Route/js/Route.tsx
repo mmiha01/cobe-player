@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Burger } from '@/components/burger/js/Burger'
+import { Player } from '@/components/player/js/player'
 
 export interface RouteProps {
     route: string,
@@ -7,7 +7,19 @@ export interface RouteProps {
     isRoute: (a: string) => boolean,
 }
 
-export class Route extends React.Component<RouteProps, {}> {
+interface State {
+    Player: React.Component
+}
+
+export class Route extends React.Component<RouteProps, State> {
+
+    /**
+     * string based rendering ?
+     */
+    // state = {
+    //     Player,
+    // }
+
     render() {
         if (!this.props.isRoute(this.props.route)) {
             return (

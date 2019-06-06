@@ -34,12 +34,18 @@ interface StateCategory {
 
 interface State {
     items: StateCategory[],
+    offset: number,
+    trackID: number,
 }
 
 export class Category extends React.Component<CategoryInterface, State> {
     state = {
         items: [] as StateCategory[],
+        offset: 0,
+        trackID: 0,
     }
+
+    categoryContainer = React.createRef<HTMLDivElement>()
 
     getRecommended = (offset: number = 0) => {
         NetworkService.makeRequest('/browse/new-releases?limit=50&offset=' + offset, 'GET').then((a) => {
@@ -49,7 +55,7 @@ export class Category extends React.Component<CategoryInterface, State> {
 
     parseRecommendeds = (items: CategoryItemFromResponse[]) => {
         const arr = []
-        let i = 0
+        let i = this.state.trackID
         for (const a of items) {
             let artists = ''
             for (const artist of a.artists) {
@@ -65,20 +71,45 @@ export class Category extends React.Component<CategoryInterface, State> {
             arr.push(item)
             i++
         }
-        this.setState({ items: arr })
+        const mergedArray = this.state.items.concat(arr)
+        this.setState({
+            items: mergedArray,
+            offset: this.state.offset + 50,
+            trackID: i,
+        })
+        console.log(this.state)
     }
 
-    foo = () => {
-        console.log(123)
+    scrollHandler = () => {
+
+
+        /**
+         * Ne radi kako treba uvijek, provjeriti dodatno!
+         */
+        const currentScroll = window.scrollY
+        const documentHeight = Number(window.getComputedStyle(document.body).height.replace('px', ''))
+        if ((currentScroll + window.innerHeight) === Math.round(documentHeight)) {
+            this.getRecommended(this.state.offset)
+            console.log(123)
+        }
+
+    }
+
+    getCategoryContainerOffset = () => {
+        return this.categoryContainer.current.offsetTop + this.categoryContainer.current.parentElement.offsetTop
     }
 
     componentWillMount() {
         this.getRecommended()
     }
 
+    componentDidMount() {
+        document.addEventListener('scroll', this.scrollHandler)
+    }
+
     render() {
         return (
-            <div className='explore-category'>
+            <div className='explore-category' ref={this.categoryContainer}>
                 <CategorySingle items={this.state.items} />
             </div>
         )
