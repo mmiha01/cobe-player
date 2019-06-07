@@ -111,6 +111,10 @@ export class Category extends React.Component<CategoryInterface, State> {
         document.addEventListener('scroll', this.scrollHandler)
     }
 
+    componentWillUnmount() {
+        document.removeEventListener('scroll', this.scrollHandler)
+    }
+
     render() {
         return (
             <div className='explore-category' ref={this.categoryContainer}>
