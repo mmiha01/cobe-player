@@ -1,11 +1,11 @@
 import * as React from 'react'
+
 export interface RouteProps {
     route: string,
     component: React.ReactNode,
     isRoute: (a: string) => boolean,
 }
 export class Route extends React.Component<RouteProps, {}> {
-
 
     render() {
         if (!this.props.isRoute(this.props.route)) {
@@ -14,9 +14,7 @@ export class Route extends React.Component<RouteProps, {}> {
                 </>
             )
         } else {
-            return (
-                <this.props.component />
-            )
+            return this.props.component
         }
     }
 }

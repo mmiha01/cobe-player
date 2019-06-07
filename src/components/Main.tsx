@@ -1,10 +1,6 @@
 import * as React from 'react'
-import { CookieService } from '../services/Cookie'
 import { AuthService } from '../services/Auth'
 import { Player } from './player/js/Player'
-import { NetworkService } from '../services/Network'
-import { PlayerNetworkService } from '../services/PlayerNetwork'
-import images from '../images'
 import { Loader } from './loader/js/Loader';
 import { Login } from './login/js/Login';
 import { Menu } from './menu/js/Menu';
@@ -13,8 +9,9 @@ import { Explore } from './explore/js/Explore';
 import { UserInterface } from '@/interfaces/UserInfo'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
 import { Burger } from './burger/js/Burger';
-// import { Route } from './Route/js/Route';
 import { Profile } from './profile/js/Profile';
+import { Context } from '@/context'
+import { Route } from './Route/js/Route';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -111,15 +108,22 @@ export class Main extends React.Component<MainProps, State> {
     }
 
     render() {
-        if (this.routeUpdater.isRoute('auth')) {
-            AuthService.getTokenFromLocationHash()
-            window.location.href = window.location.origin
-            return (<div>Pričekajte trenutak...</div>)
-        }
+
         if (!this.state.didCheckAuthState) {
             return (
                 <Loader />
             )
+        }
+
+        return (
+            <Route route={'/auth'}
+                component={<Login redirectFn={AuthService.redirectToLogin} />}
+                isRoute={this.routeUpdater.isRoute}
+            />
+        )
+
+        if (2>1) {
+
         } else if (!this.state.isAuthorized) {
             return (
                 <Login redirectFn={AuthService.redirectToLogin} />
