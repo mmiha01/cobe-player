@@ -211,6 +211,7 @@ export class Player extends React.Component<PlayerProps, State> {
 
     componentWillMount() {
         this.updatePlayerInformation()
+        document.title = 'Cobe player'
     }
 
     render() {

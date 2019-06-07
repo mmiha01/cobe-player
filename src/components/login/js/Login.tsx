@@ -6,8 +6,12 @@ export interface LoginProps {
 }
 
 export class Login extends React.Component<LoginProps, {}> {
+
+    componentDidMount() {
+        document.title = 'Cobe player - Log in'
+    }
+
     render() {
-        document.title = 'Cobe player - Prijava'
         return (
             <div className='hero'>
                 <div id='logo-login-banner'>

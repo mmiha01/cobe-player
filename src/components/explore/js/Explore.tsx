@@ -13,6 +13,10 @@ export interface ExploreInterface {
 
 export class Explore extends React.Component<ExploreInterface, {}> {
 
+    componentWillMount() {
+        document.title = 'Cobe player - Explore'
+    }
+
     render() {
         return (
             <div className='hero'>
