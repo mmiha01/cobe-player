@@ -3,7 +3,7 @@ import { NetworkService } from '@/services/Network'
 import images from '@/images'
 
 interface State {
-    country: string,
+    country?: string,
     display_name: string,
     email: string,
     images: Images[],
@@ -38,12 +38,13 @@ export class Profile extends React.Component<{}, State> {
     }
 
     parseProfileData = (data: State) => {
-        const { display_name, country, email, images, product, followers } = data
+        const { display_name, country, email, product, followers } = data
+        const imageData = data.images
         this.setState({
             display_name,
             country,
             email,
-            images,
+            images: imageData,
             product,
             followers
         })
