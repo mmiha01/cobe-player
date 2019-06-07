@@ -19,7 +19,7 @@ export class Login extends React.Component<LoginProps, {}> {
                 </div>
                 <div className='hero-item'>
                     <h1>COBE player</h1>
-                    <button className='red-button' onClick={this.props.redirectFn}>Prijava</button>
+                    <button className='red-button' onClick={this.props.redirectFn}>Log in</button>
                 </div>
             </div>
         )

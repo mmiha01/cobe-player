@@ -48,22 +48,22 @@ export class MiddleComponent extends React.Component<MiddleProps, {}> {
                     <p id='player-artists'>{this.props.artists  }</p>
                     <h1 id='player-playing'>{this.props.currentlyPlaying}</h1>
                     <img src={images.previousIcon}
-                    alt='Prethodna pjesma'
+                    alt='Previous song'
                     className='small-icon pointer'
                     onClick={this.props.prevFn}
                     />
                     <img src={images.nextIcon}
-                    alt='Sljedeća pjesma'
+                    alt='Next song'
                     className='small-icon pointer'
                     onClick={this.props.nextFn} />
                     <img src={images.repeatIcon}
                         style={this.getRepeatIconColor()}
-                        alt='Ponavljaj pjesmu'
+                        alt='Shuffle'
                         className='small-icon pointer'
                         onClick={this.props.repeatFn} />
                     <img src={images.shuffleIcon}
                         style={this.getShuffleIconColor()}
-                        alt='Nasumična pjesma'
+                        alt='Random'
                         className='small-icon pointer'
                         onClick={this.props.shuffleFn} />
                 </div>

@@ -5,7 +5,7 @@ export class Loader extends React.Component<{}> {
         return (
             <div className='hero'>
                 <div className='hero-item'>
-                    <p>Aplikacija se učitava...</p>
+                    <p>Application is being loaded...</p>
                     <div className='lds-ellipsis'><div></div><div></div><div></div><div></div></div>
                 </div>
         </div>
