@@ -8,8 +8,7 @@
     background-color: $cobe-light;
     color: $cobe-darker;
     font-family: $main-font;
-    height: auto;
-    overflow: auto;
+    height: 100%;
   }
   
   h1,h2,h3,h4,h5,h6,p {
@@ -18,11 +17,11 @@
   
   body, #main {
     height: 100%;
-    padding-top: 72px;
   }
 
   #main {
-    position: relative
+    position: relative;
+    min-height: 100%;
   }
 
   #main-inner {

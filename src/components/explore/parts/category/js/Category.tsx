@@ -39,6 +39,7 @@ interface State {
 }
 
 export class Category extends React.Component<CategoryInterface, State> {
+
     state = {
         items: [] as StateCategory[],
         offset: 0,
@@ -48,7 +49,7 @@ export class Category extends React.Component<CategoryInterface, State> {
     categoryContainer = React.createRef<HTMLDivElement>()
 
     getRecommended = (offset: number = 0) => {
-        NetworkService.makeRequest('/browse/new-releases?limit=50&offset=' + offset, 'GET').then((a) => {
+        NetworkService.makeRequest(`/browse/new-releases?limit=25&offset=${offset}`, 'GET').then((a) => {
             this.parseRecommendeds(a.albums.items)
         })
     }
@@ -74,25 +75,17 @@ export class Category extends React.Component<CategoryInterface, State> {
         const mergedArray = this.state.items.concat(arr)
         this.setState({
             items: mergedArray,
-            offset: this.state.offset + 50,
+            offset: this.state.offset + 25,
             trackID: i,
         })
-        console.log(this.state)
     }
 
     scrollHandler = () => {
-
-
-        /**
-         * Ne radi kako treba uvijek, provjeriti dodatno!
-         */
         const currentScroll = window.scrollY
-        const documentHeight = Number(window.getComputedStyle(document.body).height.replace('px', ''))
-        if ((currentScroll + window.innerHeight) === Math.round(documentHeight)) {
+        const documentHeight = Number(window.getComputedStyle(this.categoryContainer.current).height.replace('px', ''))
+        if ((currentScroll + window.innerHeight) >= Math.round(documentHeight + this.getCategoryContainerOffset())) {
             this.getRecommended(this.state.offset)
-            console.log(123)
         }
-
     }
 
     getCategoryContainerOffset = () => {
