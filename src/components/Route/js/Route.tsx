@@ -1,24 +1,11 @@
 import * as React from 'react'
-import { Player } from '@/components/player/js/player'
-
 export interface RouteProps {
     route: string,
-    component: string,
+    component: React.ReactNode,
     isRoute: (a: string) => boolean,
 }
+export class Route extends React.Component<RouteProps, {}> {
 
-interface State {
-    Player: React.Component
-}
-
-export class Route extends React.Component<RouteProps, State> {
-
-    /**
-     * string based rendering ?
-     */
-    // state = {
-    //     Player,
-    // }
 
     render() {
         if (!this.props.isRoute(this.props.route)) {
@@ -27,9 +14,8 @@ export class Route extends React.Component<RouteProps, State> {
                 </>
             )
         } else {
-            const Comp = this.props.component
             return (
-                <Comp />
+                <this.props.component />
             )
         }
     }

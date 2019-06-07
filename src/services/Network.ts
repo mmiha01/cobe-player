@@ -1,8 +1,9 @@
 import { CookieService } from './Cookie'
+import { request } from 'https';
 
 export class NetworkService {
     // tslint:disable-next-line: no-any
-    static makeRequest = (requestPath: string, method: string = 'GET', bodyParams?: any) => {
+    static makeRequest = (requestPath: string, method: string = 'GET', bodyParams: any = {}) => {
 
         // tslint:disable-next-line: no-any
         const requestBody: any = {
@@ -10,13 +11,15 @@ export class NetworkService {
             headers: {
                 'Authorization': 'Bearer ' + CookieService.getTokenFromCookie()
             },
+            ...bodyParams
         }
 
-        // tslint:disable-next-line: forin
-        for (const param in bodyParams) {
-            requestBody[param] = bodyParams[param]
-        }
-
+        // for (const param in bodyParams) {
+        //     if (requestBody.hasOwnProperty(param)) {
+        //         requestBody[param] = bodyParams[param]
+        //     }
+        // }
+        console.log(requestBody)
         return fetch(`https://api.spotify.com/v1${requestPath}`, requestBody).then((res) => res.text()).then((res) => {
             return res.length > 0 ? JSON.parse(res) : null
         })
