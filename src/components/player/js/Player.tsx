@@ -221,8 +221,11 @@ export class Player extends React.Component<PlayerProps, State> {
         this.updatePlayerInformation().then(() => {
             if (this.shouldSetPlayerTrack()) {
                 const trackURI = this.getNewTrackURI()
-                PlayerNetworkService.setTrack(trackURI)
                 location.hash = ''
+                PlayerNetworkService.setTrack(trackURI).then(() => {
+                    const howMuchToWaitResponse = 400
+                    setTimeout(this.updatePlayerInformation, howMuchToWaitResponse)
+                })
             }
         })
         document.title = 'Cobe player'
