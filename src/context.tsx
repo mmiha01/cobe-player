@@ -10,7 +10,7 @@ interface InitialState {
 
 }
 
-const initialState = {
+const initialState: InitialState = {
     isAuthorized: false,
     menuOpened: false,
     userName: '',
