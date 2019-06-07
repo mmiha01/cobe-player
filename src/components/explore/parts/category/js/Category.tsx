@@ -2,10 +2,12 @@ import * as React from 'react'
 import { NetworkService } from '@/services/Network'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
 import { CategorySingle } from '../CategorySingle';
+import { RouteService } from '@/services/RouteService'
 
 export interface CategoryInterface {
     isAuthorized: boolean,
     parseResponseError: (err: ErrorInterface, fn: () => void) => void,
+    activatePlayer: () => void,
 }
 
 interface Artist {
@@ -47,6 +49,8 @@ export class Category extends React.Component<CategoryInterface, State> {
     }
 
     categoryContainer = React.createRef<HTMLDivElement>()
+
+    router = new RouteService()
 
     getRecommended = (offset: number = 0) => {
         NetworkService.makeRequest(`/browse/new-releases?limit=25&offset=${offset}`, 'GET').then((a) => {
@@ -92,6 +96,13 @@ export class Category extends React.Component<CategoryInterface, State> {
         return this.categoryContainer.current.offsetTop + this.categoryContainer.current.parentElement.offsetTop
     }
 
+    getSpotifyTrackURI = (itemID: number) => {
+        const getTargetedItem = this.state.items.filter((item) => item.id === itemID)
+        const trackURI = getTargetedItem[0].trackURI
+        this.props.activatePlayer()
+        this.router.pushRoute(`/player#newtrack=${encodeURI(trackURI)}`)
+    }
+
     componentWillMount() {
         this.getRecommended()
     }
@@ -103,7 +114,7 @@ export class Category extends React.Component<CategoryInterface, State> {
     render() {
         return (
             <div className='explore-category' ref={this.categoryContainer}>
-                <CategorySingle items={this.state.items} />
+                <CategorySingle items={this.state.items} getSpotifyTrackURI={this.getSpotifyTrackURI} />
             </div>
         )
     }

@@ -97,6 +97,10 @@ export class Main extends React.Component<MainProps, State> {
         })
     }
 
+    activatePlayer = () => {
+        this.setState({  currentRoute: 'player' })
+    }
+
     componentWillMount() {
         this.checkAuth()
     }
@@ -158,6 +162,7 @@ export class Main extends React.Component<MainProps, State> {
                         imageURL={this.state.imageURL}
                         parseResponseError={this.parseResponseError}
                         isAuthorized={this.state.isAuthorized}
+                        activatePlayer={this.activatePlayer}
                     />
                 </div>
             )

@@ -1,10 +1,10 @@
 export class RouteService {
 
-    routeUpdater: (currentRoute: string) => void
+    routeUpdater?: (currentRoute: string) => void
     currentRoute: string
 
-    constructor(routeUpdater: (currentRoute: string) => void) {
-        this.routeUpdater = routeUpdater
+    constructor(routeUpdater?: (currentRoute: string) => void) {
+        this.routeUpdater = routeUpdater || null
         this.currentRoute = this.getCurrentRoute()
 
         window.onpopstate = () => {
@@ -14,7 +14,9 @@ export class RouteService {
 
     pushRoute(route: string) {
         window.history.pushState(null, '', route)
-        this.routeUpdater(route)
+        if (this.routeUpdater) {
+            this.routeUpdater(route)
+        }
     }
 
     isRoute = (route: string) => {

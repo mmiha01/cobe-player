@@ -9,11 +9,11 @@ interface CategoryItem {
 }
 
 export interface CategorySingleInterface {
-    items: CategoryItem[]
+    items: CategoryItem[],
+    getSpotifyTrackURI: (x: number) => void,
 }
 
 export class CategorySingle extends React.Component<CategorySingleInterface, {}> {
-
     render() {
         if (!this.props.items[0]) {
             return (
@@ -21,7 +21,8 @@ export class CategorySingle extends React.Component<CategorySingleInterface, {}>
             )
         }
         return this.props.items.map((item: CategoryItem) => (
-            <div key={item.id} className='explore-child pointer'>
+            // tslint:disable-next-line: max-line-length
+            <div key={item.id} className='explore-child pointer' onClick={ () => this.props.getSpotifyTrackURI(item.id) }>
                 <img src={item.image} alt='' />
                 <div className='black-overlay hero'>
                     <div className='hero-item'>
