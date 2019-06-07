@@ -7,8 +7,10 @@ export class RouteService {
         this.routeUpdater = routeUpdater || null
         this.currentRoute = this.getCurrentRoute()
 
-        window.onpopstate = () => {
-            this.routeUpdater(this.getCurrentRoute())
+        if (this.routeUpdater) {
+            window.onpopstate = () => {
+                this.routeUpdater(this.getCurrentRoute())
+            }
         }
     }
 
