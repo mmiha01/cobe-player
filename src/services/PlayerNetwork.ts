@@ -56,10 +56,13 @@ export class PlayerNetworkService {
         return NetworkService.makeRequest(`/me/player/volume?volume_percent=${val}`, 'PUT')
     }
 
-    static setTrack = (val: string) => {
-        return NetworkService.makeRequest(`/me/player/volume?volume_percent=${val}`, 'PUT', {
-            foo: false,
-            a: 2
+    static setTrack = (trackURI: string) => {
+        return NetworkService.makeRequest(`/me/player/play`, 'PUT', {
+            context_uri: trackURI,
+            offset: {
+                position: 0,
+            },
+            position_ms: 0,
         })
     }
 }

@@ -151,7 +151,7 @@ export class Player extends React.Component<PlayerProps, State> {
     }
 
     updatePlayerInformation = () => {
-        PlayerNetworkService.getPlayerInformation().then((response) => {
+        return PlayerNetworkService.getPlayerInformation().then((response) => {
             if (response) {
                 if (response.error) {
                     // this.parseResponseError(response.error, () => {})
@@ -160,6 +160,14 @@ export class Player extends React.Component<PlayerProps, State> {
                 this.parseValidPlayerResponse(response)
             }
         })
+    }
+
+    shouldSetPlayerTrack = () => {
+        return location.hash.indexOf('#newtrack=') > -1
+    }
+
+    getNewTrackURI = () => {
+        return decodeURI(location.hash.replace('#newtrack=', ''))
     }
 
     playNextSong = () => {
@@ -210,7 +218,13 @@ export class Player extends React.Component<PlayerProps, State> {
     }
 
     componentWillMount() {
-        this.updatePlayerInformation()
+        this.updatePlayerInformation().then(() => {
+            if (this.shouldSetPlayerTrack()) {
+                const trackURI = this.getNewTrackURI()
+                PlayerNetworkService.setTrack(trackURI)
+                location.hash = ''
+            }
+        })
         document.title = 'Cobe player'
     }
 
