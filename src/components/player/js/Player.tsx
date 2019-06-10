@@ -93,6 +93,7 @@ export class Player extends React.Component<PlayerProps, State> {
     findActiveDevice = (devices: DevicesList[]) => devices.find((device) => device.is_active)
 
     parseValidPlayerResponse = (response: ValidResponse ) => {
+        !response.item && console.log(response)
         if (this.areThereActiveDevices(response.devices)) {
             const {id, name, is_active, volume_percent } = this.findActiveDevice(response.devices)
             this.setState({
@@ -222,10 +223,11 @@ export class Player extends React.Component<PlayerProps, State> {
         }
         PlayerNetworkService.resumePlayer()
         this.setState({ isPlaying: true })
-        this.progressUpdater()
+        setTimeout(this.progressUpdater, 0)
     }
 
     progressUpdater = () => {
+        // console.log('Update is active')
         if (!this.state.isPlaying) {
             return
         }
@@ -260,7 +262,7 @@ export class Player extends React.Component<PlayerProps, State> {
                 const trackURI = this.getNewTrackURI()
                 location.hash = ''
                 PlayerNetworkService.setTrack(trackURI).then(() => {
-                    const howMuchToWaitResponse = 400
+                    const howMuchToWaitResponse = 500
                     setTimeout(this.updatePlayerInformation, howMuchToWaitResponse)
                 })
             }
