@@ -2,9 +2,9 @@ import * as React from 'react'
 import { Burger } from './burger/js/Burger'
 import { Menu } from './menu/js/Menu'
 import { Context } from '@/context'
-import { Player } from './player/js/Player';
+import { Profile } from './profile/js/Profile'
 
-export class PlayerMain extends React.Component<{}> {
+export class ProfileMain extends React.Component<{}> {
     render() {
         return (
             <Context.Consumer>
@@ -16,13 +16,7 @@ export class PlayerMain extends React.Component<{}> {
                             toggleMenu={value.toggleMenu}
                             pushRoute={value.pushRoute}
                         />
-                        <Player
-                        userName={value.userName}
-                        productType={value.productType}
-                        imageURL={value.imageURL}
-                        parseResponseError={value.parseResponseError}
-                        isAuthorized={value.isAuthorized}
-                        />
+                        <Profile />
                     </div>
                     )
                 }

@@ -1,22 +1,17 @@
 import * as React from 'react'
+import { ErrorInterface } from './interfaces/ErrorInterface';
 
-interface InitialState {
+export interface GlobalState {
+    toggleMenu: () => void,
     isAuthorized: boolean,
     menuOpened: boolean,
     userName: string,
     productType: string,
     imageURL: string,
     currentRoute: string,
-
+    pushRoute: (a: string) => void,
+    parseResponseError: (err: ErrorInterface, fn: () => void) => void,
+    activatePlayer: () => void,
 }
 
-const initialState: InitialState = {
-    isAuthorized: false,
-    menuOpened: false,
-    userName: '',
-    productType: '',
-    imageURL: '',
-    currentRoute: ''
-}
-
-export const Context = React.createContext(initialState)
+export const Context = React.createContext<GlobalState>(undefined)

@@ -1,17 +1,16 @@
 import * as React from 'react'
 import { AuthService } from '../services/Auth'
-import { Player } from './player/js/Player'
 import { Loader } from './loader/js/Loader';
 import { Login } from './login/js/Login';
-import { Menu } from './menu/js/Menu';
 import { RouteService } from '@/services/RouteService';
-import { Explore } from './explore/js/Explore';
 import { UserInterface } from '@/interfaces/UserInfo'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
-import { Burger } from './burger/js/Burger';
-import { Profile } from './profile/js/Profile';
 import { Context } from '@/context'
 import { Route } from './Route/js/Route';
+import { PlayerMain } from './PlayerMain';
+import { LoginSuccess } from './LoginSuccess';
+import { ExploreMain } from './ExploreMain';
+import { ProfileMain } from './ProfileMain';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -41,7 +40,6 @@ export class Main extends React.Component<MainProps, State> {
         this.setState({ currentRoute, menuOpened: false })
     }
 
-    // tslint:disable-next-line: member-ordering
     routeUpdater: RouteService = new RouteService(this.routeUpdaterCallback)
 
     pushRoute = (route: string) => {
@@ -56,13 +54,12 @@ export class Main extends React.Component<MainProps, State> {
         this.setState({ menuOpened: true })
     }
 
-    parseResponseError = (err: ErrorInterface, fn: () => void) => {
+    parseResponseError = (err: ErrorInterface, fn?: () => void) => {
         if (err.status === 401) {
             this.setState({ isAuthorized: false })
         } else if (err.status === 429) {
             console.log(429)
         }
-        console.log(err)
     }
 
     parseUserInfo = (user: UserInterface) => {
@@ -102,81 +99,48 @@ export class Main extends React.Component<MainProps, State> {
         this.checkAuth()
     }
 
-    shouldComponentUpdate(a: {}, b: {
-        didCheckAuthState: boolean, }) {
+    shouldComponentUpdate(a: {}, b: { didCheckAuthState: boolean, }) {
         return b.didCheckAuthState === true;
     }
 
     render() {
-
         if (!this.state.didCheckAuthState) {
             return (
                 <Loader />
             )
-        }
-
-        return (
-            <Route route={'/auth'}
-                component={<Login redirectFn={AuthService.redirectToLogin} />}
-                isRoute={this.routeUpdater.isRoute}
-            />
-        )
-
-        if (2>1) {
-
-        } else if (!this.state.isAuthorized) {
+        } else if (!this.state.isAuthorized && !this.routeUpdater.isRoute('auth')) {
             return (
                 <Login redirectFn={AuthService.redirectToLogin} />
             )
-        } else if (this.routeUpdater.isRoute('player') || this.routeUpdater.isRoute('') ) {
-            return (
-                <div id='main-inner'>
-                    <Burger toggleMenu={this.toggleMenu} />
-                    <Menu
-                        menuOpened={this.state.menuOpened}
-                        toggleMenu={this.toggleMenu}
-                        pushRoute={this.pushRoute}
-                    />
-                    <Player
-                    userName={this.state.userName}
-                    productType={this.state.productType}
-                    imageURL={this.state.imageURL}
-                    parseResponseError={this.parseResponseError}
-                    isAuthorized={this.state.isAuthorized}
-                    />
-                </div>
-            )
-        } else if (this.routeUpdater.isRoute('explore')) {
-            return (
-                <div id='main-inner'>
-                    <Burger toggleMenu={this.toggleMenu} />
-                    <Menu
-                        menuOpened={this.state.menuOpened}
-                        toggleMenu={this.toggleMenu}
-                        pushRoute={this.pushRoute}
-                    />
-                    <Explore
-                        userName={this.state.userName}
-                        productType={this.state.productType}
-                        imageURL={this.state.imageURL}
-                        parseResponseError={this.parseResponseError}
-                        isAuthorized={this.state.isAuthorized}
-                        activatePlayer={this.activatePlayer}
-                    />
-                </div>
-            )
-        } else if (this.routeUpdater.isRoute('profile')) {
-            return (
-                <div id='main-inner'>
-                    <Burger toggleMenu={this.toggleMenu} />
-                    <Menu
-                        menuOpened={this.state.menuOpened}
-                        toggleMenu={this.toggleMenu}
-                        pushRoute={this.pushRoute}
-                    />
-                    <Profile />
-                </div>
-            )
         }
+
+        const contextValue = {
+            toggleMenu: this.toggleMenu,
+            pushRoute: this.pushRoute,
+            parseResponseError: this.parseResponseError,
+            activatePlayer: this.activatePlayer,
+            ...this.state,
+        }
+
+        return (
+            <Context.Provider value={contextValue}>
+                <Route route={'auth'}
+                    component={<LoginSuccess />}
+                    isRoute={this.routeUpdater.isRoute}
+                />
+                <Route route={'player'}
+                    component={<PlayerMain />}
+                    isRoute={this.routeUpdater.isRoute}
+                />
+                <Route route={'explore'}
+                    component={<ExploreMain />}
+                    isRoute={this.routeUpdater.isRoute}
+                />
+                <Route route={'profile'}
+                    component={<ProfileMain />}
+                    isRoute={this.routeUpdater.isRoute}
+                />
+            </Context.Provider>
+        )
     }
 }
