@@ -64,6 +64,7 @@ interface State {
     currentlyPlaying: string,
     isAuthorized: boolean,
     duration: number,
+    realStartTime: number,
 }
 
 export class Player extends React.Component<PlayerProps, State> {
@@ -82,7 +83,10 @@ export class Player extends React.Component<PlayerProps, State> {
         artists: '',
         currentlyPlaying: '',
         isAuthorized: this.props.isAuthorized,
+        realStartTime: 0,
     }
+
+    timeout: ReturnType<typeof setTimeout>
 
     areThereActiveDevices = (devices: DevicesList[]) => devices.some((device) => device.is_active)
 
@@ -103,6 +107,7 @@ export class Player extends React.Component<PlayerProps, State> {
                 progress: response.progress,
             })
             this.parseTrackObject(response.item)
+            this.setState({ realStartTime: Date.now() })
         }
     }
 
@@ -158,6 +163,7 @@ export class Player extends React.Component<PlayerProps, State> {
                     return false
                 }
                 this.parseValidPlayerResponse(response)
+                this.progressUpdater()
             }
         })
     }
@@ -211,10 +217,41 @@ export class Player extends React.Component<PlayerProps, State> {
         if (this.state.isPlaying === true) {
             PlayerNetworkService.pausePlayer()
             this.setState({ isPlaying: false })
+            clearTimeout(this.timeout)
             return
         }
         PlayerNetworkService.resumePlayer()
         this.setState({ isPlaying: true })
+        this.progressUpdater()
+    }
+
+    progressUpdater = () => {
+        if (!this.state.isPlaying) {
+            return
+        }
+        const timeNow = Date.now()
+        const timeStart = this.state.realStartTime
+        const timeDiff = timeNow - timeStart
+        const newProgress = this.state.progress + timeDiff
+        this.setState({
+            progress: newProgress,
+            realStartTime: timeNow,
+        })
+        if (newProgress >= this.state.duration) {
+            clearTimeout(this.timeout)
+
+            /**
+             * Možda ovdje sačekati malo dok server update napravi
+             */
+            this.updatePlayerInformation()
+        } else {
+            const refreshFrequency = 100
+            this.timeout = setTimeout(this.progressUpdater, refreshFrequency);
+        }
+    }
+
+    stateProgressUpdater = (progress: number) => {
+        this.setState({ progress })
     }
 
     componentWillMount() {
@@ -229,6 +266,10 @@ export class Player extends React.Component<PlayerProps, State> {
             }
         })
         document.title = 'Cobe player'
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timeout)
     }
 
     render() {
@@ -261,6 +302,7 @@ export class Player extends React.Component<PlayerProps, State> {
                 <ProgressBar
                     progress={this.state.progress}
                     duration={this.state.duration}
+                    stateProgressUpdater={this.stateProgressUpdater}
                 />
             </div>
         )

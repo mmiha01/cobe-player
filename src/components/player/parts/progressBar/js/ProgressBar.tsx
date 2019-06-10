@@ -4,17 +4,14 @@ import { PlayerNetworkService } from '@/services/PlayerNetwork'
 export interface ProgressBarProps {
     progress: number,
     duration: number,
+    stateProgressUpdater: (a: number) => void,
 }
 
 interface State {
     progress: number,
 }
 
-export class ProgressBar extends React.Component<ProgressBarProps, State> {
-
-    state = {
-        progress: this.props.progress
-    }
+export class ProgressBar extends React.Component<ProgressBarProps, {}> {
 
     currentX = 0
     allowMoving = false
@@ -25,7 +22,7 @@ export class ProgressBar extends React.Component<ProgressBarProps, State> {
     updatePositions = (currentX: number) => {
         this.currentX = currentX
         const newProgress = Math.floor((this.currentX / window.innerWidth) * this.props.duration)
-        this.setState({ progress: newProgress })
+        this.props.stateProgressUpdater(newProgress)
     }
 
     startHandler = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -42,14 +39,13 @@ export class ProgressBar extends React.Component<ProgressBarProps, State> {
 
     endHandler = (e: React.MouseEvent<HTMLDivElement>) => {
         if (this.allowMoving) {
-            PlayerNetworkService.changeProgress(this.state.progress)
+            PlayerNetworkService.changeProgress(this.props.progress)
         }
-        console.log(this.state.progress)
         this.allowMoving = false
     }
 
     render() {
-        const progressWidthVal = Math.floor((this.state.progress / this.props.duration) * 100)
+        const progressWidthVal = (this.props.progress / this.props.duration) * 100
         return (
             <div id='progress-bar'
                 ref={this.mainContainer}
