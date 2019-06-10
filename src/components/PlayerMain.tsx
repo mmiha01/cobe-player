@@ -17,11 +17,11 @@ export class PlayerMain extends React.Component<{}> {
                             pushRoute={value.pushRoute}
                         />
                         <Player
-                        userName={value.userName}
-                        productType={value.productType}
-                        imageURL={value.imageURL}
-                        parseResponseError={value.parseResponseError}
-                        isAuthorized={value.isAuthorized}
+                            userName={value.userName}
+                            productType={value.productType}
+                            imageURL={value.imageURL}
+                            parseResponseError={value.parseResponseError}
+                            isAuthorized={value.isAuthorized}
                         />
                     </div>
                     )

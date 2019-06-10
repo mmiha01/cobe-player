@@ -259,8 +259,8 @@ export class Player extends React.Component<PlayerProps, State> {
                     <Slider volume={this.state.volume} />
                 </div>
                 <ProgressBar
-                progress={this.state.progress}
-                duration={this.state.duration}
+                    progress={this.state.progress}
+                    duration={this.state.duration}
                 />
             </div>
         )
