@@ -24,3 +24,9 @@
     color: $cobe-dark;
     text-transform: capitalize;
 }
+
+@media only screen and (max-width: 680px) {
+    .profile-image {
+        width: 100px
+    }
+}
