@@ -1,5 +1,6 @@
 import * as React from 'react'
 import images from '../../../images'
+import { CookieService } from '@/services/Cookie'
 
 export interface LoginProps {
     redirectFn: () => void,
@@ -11,6 +12,13 @@ export class Login extends React.Component<LoginProps, {}> {
         document.title = 'Cobe player - Log in'
     }
 
+    shouldShowExpiredText = () => {
+        if (!CookieService.getTokenFromCookie()) {
+            return { display: 'none', }
+        }
+        return { display: 'block', }
+    }
+
     render() {
         return (
             <div className='hero'>
@@ -19,6 +27,7 @@ export class Login extends React.Component<LoginProps, {}> {
                 </div>
                 <div className='hero-item'>
                     <h1>COBE player</h1>
+                    <p style={this.shouldShowExpiredText()}>Session has expired, please log in again</p>
                     <button className='red-button' onClick={this.props.redirectFn}>Log in</button>
                 </div>
             </div>
