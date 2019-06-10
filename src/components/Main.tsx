@@ -11,6 +11,8 @@ import { PlayerMain } from './PlayerMain'
 import { LoginSuccess } from './LoginSuccess'
 import { ExploreMain } from './ExploreMain'
 import { ProfileMain } from './ProfileMain'
+import { Burger } from './burger/js/Burger';
+import { Menu } from './menu/js/Menu';
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -124,22 +126,30 @@ export class Main extends React.Component<MainProps, State> {
 
         return (
             <Context.Provider value={contextValue}>
-                <Route route={'auth'}
-                    component={<LoginSuccess />}
-                    isRoute={this.routeUpdater.isRoute}
-                />
-                <Route route={'player'}
-                    component={<PlayerMain />}
-                    isRoute={this.routeUpdater.isRoute}
-                />
-                <Route route={'explore'}
-                    component={<ExploreMain />}
-                    isRoute={this.routeUpdater.isRoute}
-                />
-                <Route route={'profile'}
-                    component={<ProfileMain />}
-                    isRoute={this.routeUpdater.isRoute}
-                />
+                <div id='main-inner'>
+                    <Burger toggleMenu={this.toggleMenu} />
+                    <Menu
+                        menuOpened={this.state.menuOpened}
+                        toggleMenu={this.toggleMenu}
+                        pushRoute={this.pushRoute}
+                    />
+                    <Route route={'auth'}
+                        component={<LoginSuccess />}
+                        isRoute={this.routeUpdater.isRoute}
+                    />
+                    <Route route={'player'}
+                        component={<PlayerMain />}
+                        isRoute={this.routeUpdater.isRoute}
+                    />
+                    <Route route={'explore'}
+                        component={<ExploreMain />}
+                        isRoute={this.routeUpdater.isRoute}
+                    />
+                    <Route route={'profile'}
+                        component={<ProfileMain />}
+                        isRoute={this.routeUpdater.isRoute}
+                    />
+                </div>
             </Context.Provider>
         )
     }

@@ -9,22 +9,14 @@ export class ExploreMain extends React.Component<{}> {
         return (
             <Context.Consumer>
                 { (value) => (
-                    <div id='main-inner'>
-                        <Burger toggleMenu={value.toggleMenu} />
-                        <Menu
-                            menuOpened={value.menuOpened}
-                            toggleMenu={value.toggleMenu}
-                            pushRoute={value.pushRoute}
-                        />
                         <Explore
                             userName={value.userName}
                             productType={value.productType}
                             imageURL={value.imageURL}
                             parseResponseError={value.parseResponseError}
                             isAuthorized={value.isAuthorized}
-                            activatePlayer={value.activatePlayer}
+                        activatePlayer={value.activatePlayer}
                         />
-                    </div>
                     )
                 }
             </Context.Consumer>
