@@ -33,16 +33,16 @@ export class Slider extends React.Component<SliderProps, State> {
         return this.mainContainer.current.parentElement.offsetTop + this.mainContainer.current.offsetTop
     }
 
-    startHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    startHandler = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         this.allowMoving = true
-        this.updatePositions(e.pageY)
+        this.updatePositions(this.getPageY(e))
     }
 
-    moveHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    moveHandler = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         if (!this.allowMoving) {
             return false
         }
-        this.updatePositions(e.pageY)
+        this.updatePositions(this.getPageY(e))
     }
 
     endHandler = () => {
@@ -50,6 +50,13 @@ export class Slider extends React.Component<SliderProps, State> {
             PlayerNetworkService.setVolume(this.state.volume)
         }
         this.allowMoving = false
+    }
+
+    getPageY(e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) {
+        if (e.nativeEvent instanceof TouchEvent) {
+            return e.nativeEvent.touches[0].pageY
+        }
+        return e.nativeEvent.pageY
     }
 
     render() {
@@ -62,6 +69,9 @@ export class Slider extends React.Component<SliderProps, State> {
                 onMouseMove={this.moveHandler}
                 onMouseUp={this.endHandler}
                 onMouseLeave={this.endHandler}
+                onTouchStart={this.startHandler}
+                onTouchMove={this.moveHandler}
+                onTouchEnd={this.endHandler}
             >
             <div id='volume-slider' ref={this.container}>
                 <div id='volume-slider-handle'

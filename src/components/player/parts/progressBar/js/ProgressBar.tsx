@@ -25,23 +25,30 @@ export class ProgressBar extends React.Component<ProgressBarProps, {}> {
         this.props.stateProgressUpdater(newProgress)
     }
 
-    startHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    startHandler = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         this.allowMoving = true
-        this.updatePositions(e.pageX)
+        this.updatePositions(this.getPageX(e))
     }
 
-    moveHandler =  (e: React.MouseEvent<HTMLDivElement>) => {
+    moveHandler =  (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         if (!this.allowMoving) {
             return false
         }
-        this.updatePositions(e.pageX)
+        this.updatePositions(this.getPageX(e))
     }
 
-    endHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    endHandler = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         if (this.allowMoving) {
             PlayerNetworkService.changeProgress(this.props.progress)
         }
         this.allowMoving = false
+    }
+
+    getPageX(e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) {
+        if (e.nativeEvent instanceof TouchEvent) {
+            return e.nativeEvent.touches[0].pageX
+        }
+        return e.nativeEvent.pageX
     }
 
     render() {
@@ -53,6 +60,9 @@ export class ProgressBar extends React.Component<ProgressBarProps, {}> {
                 onMouseMove={this.moveHandler}
                 onMouseUp={this.endHandler}
                 onMouseLeave={this.endHandler}
+                onTouchStart={this.startHandler}
+                onTouchMove={this.moveHandler}
+                onTouchEnd={this.endHandler}
             >
                 <div id='progress-inner' style={{width: progressWidthVal + '%'}} ref={this.progressBar} ></div>
             </div>
