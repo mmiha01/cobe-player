@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { NetworkService } from '@/services/Network'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
-import { CategorySingle } from '../CategorySingle';
+import { CategorySingle } from '../CategorySingle'
 import { RouteService } from '@/services/RouteService'
 
 export interface CategoryInterface {

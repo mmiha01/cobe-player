@@ -2,15 +2,15 @@ import * as React from 'react'
 import { AuthService } from '../services/Auth'
 import { Loader } from './loader/js/Loader';
 import { Login } from './login/js/Login';
-import { RouteService } from '@/services/RouteService';
+import { RouteService } from '@/services/RouteService'
 import { UserInterface } from '@/interfaces/UserInfo'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
 import { Context } from '@/context'
-import { Route } from './Route/js/Route';
-import { PlayerMain } from './PlayerMain';
-import { LoginSuccess } from './LoginSuccess';
-import { ExploreMain } from './ExploreMain';
-import { ProfileMain } from './ProfileMain';
+import { Route } from './Route/js/Route'
+import { PlayerMain } from './PlayerMain'
+import { LoginSuccess } from './LoginSuccess'
+import { ExploreMain } from './ExploreMain'
+import { ProfileMain } from './ProfileMain'
 
 export interface MainProps { compiler: string; framework: string; }
 

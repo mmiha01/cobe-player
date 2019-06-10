@@ -22,9 +22,6 @@ interface Images {
 
 export class Profile extends React.Component<{}, State> {
 
-    /**
-     * Ovo plus shadow image
-     */
     state = {
         country: '',
         display_name: '',

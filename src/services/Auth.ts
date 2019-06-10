@@ -1,5 +1,5 @@
 import { CookieService } from './Cookie'
-import { NetworkService } from './Network';
+import { NetworkService } from './Network'
 
 export class AuthService {
     static redirectToLogin = () => {

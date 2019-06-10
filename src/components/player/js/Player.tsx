@@ -5,8 +5,8 @@ import { MiddleComponent } from '../parts/middleComponent/js/MiddleComponent'
 import { ProgressBar } from '../parts/progressBar/js/ProgressBar'
 import { Slider } from '../parts/slider/js/Slider'
 import { UserInfo } from '../../userInfo/js/UserInfo'
-import { AuthService } from '@/services/Auth';
-import { PlayerNetworkService } from '@/services/PlayerNetwork';
+import { AuthService } from '@/services/Auth'
+import { PlayerNetworkService } from '@/services/PlayerNetwork'
 import { UserInterface } from '@/interfaces/UserInfo'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
 

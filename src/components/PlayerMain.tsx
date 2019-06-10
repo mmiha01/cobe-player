@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Burger } from './burger/js/Burger'
 import { Menu } from './menu/js/Menu'
 import { Context } from '@/context'
-import { Player } from './player/js/Player';
+import { Player } from './player/js/Player'
 
 export class PlayerMain extends React.Component<{}> {
     render() {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ErrorInterface } from './interfaces/ErrorInterface';
+import { ErrorInterface } from './interfaces/ErrorInterface'
 
 export interface GlobalState {
     toggleMenu: () => void,
