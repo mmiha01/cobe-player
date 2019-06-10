@@ -97,8 +97,8 @@ export class Category extends React.Component<CategoryInterface, State> {
     }
 
     getSpotifyTrackURI = (itemID: number) => {
-        const getTargetedItem = this.state.items.filter((item) => item.id === itemID)
-        const trackURI = getTargetedItem[0].trackURI
+        const getTargetedItem = this.state.items.find((item) => item.id === itemID)
+        const trackURI = getTargetedItem.trackURI
         this.props.activatePlayer()
         this.router.pushRoute(`/player#newtrack=${encodeURI(trackURI)}`)
     }
