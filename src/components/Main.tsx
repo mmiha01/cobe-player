@@ -80,13 +80,6 @@ export class Main extends React.Component<MainProps, State> {
 
     checkAuth = () => {
         AuthService.isUserLoggedIn().then((response: UserInterface) => {
-            if (!response) {
-                this.setState({
-                    isAuthorized: false,
-                    didCheckAuthState: true,
-                })
-                return false
-            }
             this.setState({
                 isAuthorized: true,
                 didCheckAuthState: true,
@@ -109,7 +102,22 @@ export class Main extends React.Component<MainProps, State> {
     }
 
     shouldComponentUpdate(a: {}, b: { didCheckAuthState: boolean, }) {
-        return b.didCheckAuthState === true;
+        return b.didCheckAuthState === true
+    }
+
+    componentDidMount() {
+        window.addEventListener('networkerror', (e: CustomEvent) => {
+            if (e.detail.status === 401 || e.detail.status === 400) {
+                this.setState({
+                    isAuthorized: false,
+                    didCheckAuthState: true,
+                })
+                return
+            }
+            if (e.detail.status === 429) {
+                this.setState({ showModal: true })
+            }
+        })
     }
 
     render() {

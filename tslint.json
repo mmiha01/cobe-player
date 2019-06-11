@@ -21,7 +21,8 @@
           "ordered-imports": false,
           "no-any": true,
           "no-console": false,
-          "member-ordering": false
+          "member-ordering": false,
+          "arrow-parens": false
     },
     "rulesDirectory": []
 }

@@ -25,6 +25,10 @@ export class WaitModal extends React.Component<WaitModalProps, State> {
         this.setModalDisplay()
     }
 
+    componentDidMount() {
+        this.setModalDisplay()
+    }
+
     render() {
         return (
             <div className='hero wait-modal hide-wait-modal' ref={this.modal}>

@@ -1,4 +1,5 @@
 import { CookieService } from './Cookie'
+import { ErrorInterface } from '@/interfaces/ErrorInterface'
 
 export class NetworkService {
 
@@ -28,7 +29,21 @@ export class NetworkService {
         const requestBody: any = NetworkService.getRequestBody(method, bodyParams)
 
         return fetch(`https://api.spotify.com/v1${requestPath}`, requestBody).then((res) => res.text()).then((res) => {
-            return res.length > 0 ? JSON.parse(res) : null
+            if (res.length === 0) {
+                return Promise.reject
+            }
+            const parsedResponse = JSON.parse(res)
+            if (parsedResponse.error) {
+                const errorInfo: CustomEventInit<ErrorInterface> = {
+                    detail: {
+                        status: parsedResponse.error.status
+                    }
+                }
+                const event = new CustomEvent('networkerror', errorInfo)
+                window.dispatchEvent(event)
+                return Promise.reject
+            }
+            return parsedResponse
         })
     }
 }

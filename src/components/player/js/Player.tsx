@@ -158,37 +158,44 @@ export class Player extends React.Component<PlayerProps, State> {
 
     setPlayerRepeat = () => {
         if (this.state.repeatMode === 'off') {
-            PlayerNetworkService.changeRepeatMode('context')
-            this.setState({ repeatMode: 'context' })
+            PlayerNetworkService.changeRepeatMode('context').then(() => {
+                this.setState({ repeatMode: 'context' })
+            })
         } else if (this.state.repeatMode === 'context') {
-            PlayerNetworkService.changeRepeatMode('track')
-            this.setState({ repeatMode: 'track' })
+            PlayerNetworkService.changeRepeatMode('track').then(() => {
+                this.setState({ repeatMode: 'track' })
+            })
         } else {
-            PlayerNetworkService.changeRepeatMode('off')
-            this.setState({ repeatMode: 'off' })
+            PlayerNetworkService.changeRepeatMode('off').then(() => {
+                this.setState({ repeatMode: 'off' })
+            })
         }
     }
 
     playerShuffle = () => {
         if (this.state.shuffle) {
-            this.setState({ shuffle: false })
-            PlayerNetworkService.toggleShuffle(false)
+            PlayerNetworkService.toggleShuffle(false).then(() => {
+                this.setState({ shuffle: false })
+            })
         } else {
-            this.setState({ shuffle: true })
-            PlayerNetworkService.toggleShuffle(true)
+            PlayerNetworkService.toggleShuffle(true).then(() => {
+                this.setState({ shuffle: true })
+            })
         }
     }
 
     togglePlayer = () => {
         if (this.state.isPlaying === true) {
-            PlayerNetworkService.pausePlayer()
-            this.setState({ isPlaying: false })
-            clearTimeout(this.progressBarTimeout)
+            PlayerNetworkService.pausePlayer().then(() => {
+                this.setState({ isPlaying: false })
+                clearTimeout(this.progressBarTimeout)
+            })
             return
         }
-        PlayerNetworkService.resumePlayer()
-        this.setState({ isPlaying: true })
-        setTimeout(this.progressUpdater, 0)
+        PlayerNetworkService.resumePlayer().then(() => {
+            this.setState({ isPlaying: true })
+            setTimeout(this.progressUpdater, 0)
+        })
     }
 
     getProgressTimeDiff = () => {

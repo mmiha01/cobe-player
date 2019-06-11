@@ -8,7 +8,8 @@ interface State {
     email: string,
     images: Images[],
     product: string,
-    followers: Followers
+    followers: Followers,
+    didMakeSuccessFullRequest: boolean,
 }
 
 interface Followers {
@@ -31,7 +32,8 @@ export class Profile extends React.Component<{}, State> {
         followers: {
             href: '',
             total: 0,
-        }
+        },
+        didMakeSuccessFullRequest: false,
     }
 
     parseProfileData = (data: State) => {
@@ -43,8 +45,23 @@ export class Profile extends React.Component<{}, State> {
             email,
             images: imageData,
             product,
-            followers
+            followers,
+            didMakeSuccessFullRequest: true
         })
+    }
+
+    checkImage = () => {
+        if (typeof this.state.images !== 'undefined' && this.state.images.length) {
+            return this.state.images[0].url
+        }
+        return images.userIcon
+    }
+
+    checkClassName = () => {
+        if (typeof this.state.images !== 'undefined' && this.state.images.length) {
+            return 'profile-image'
+        }
+        return 'profile-image no-border'
     }
 
     componentWillMount() {
@@ -53,8 +70,8 @@ export class Profile extends React.Component<{}, State> {
     }
 
     render() {
-        const image = this.state.images[0] ? this.state.images[0].url : images.userIcon
-        const classToSet = this.state.images[0] ? 'profile-image' : 'profile-image no-border'
+        const image = this.checkImage()
+        const classToSet = this.checkClassName()
         return (
             <div className='hero'>
                 <div className='hero-item'>
