@@ -5,6 +5,7 @@ export interface ProgressBarProps {
     progress: number,
     duration: number,
     stateProgressUpdater: (a: number) => void,
+    changeInterActiveState: (a: boolean) => void,
 }
 
 interface State {
@@ -28,6 +29,7 @@ export class ProgressBar extends React.Component<ProgressBarProps, {}> {
     startHandler = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
         this.allowMoving = true
         this.updatePositions(this.getPageX(e))
+        this.props.changeInterActiveState(true)
     }
 
     moveHandler =  (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
@@ -42,6 +44,7 @@ export class ProgressBar extends React.Component<ProgressBarProps, {}> {
             PlayerNetworkService.changeProgress(this.props.progress)
         }
         this.allowMoving = false
+        this.props.changeInterActiveState(false)
     }
 
     getPageX(e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) {
