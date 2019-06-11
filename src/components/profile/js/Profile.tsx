@@ -65,7 +65,7 @@ export class Profile extends React.Component<{}, State> {
     }
 
     componentWillMount() {
-        NetworkService.makeRequest('/me').then(this.parseProfileData)
+        NetworkService.makeRequest('/me').then(this.parseProfileData).catch(console.log)
         document.title = 'Cobe player - My profile'
     }
 

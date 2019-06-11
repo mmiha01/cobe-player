@@ -86,7 +86,7 @@ export class Main extends React.Component<MainProps, State> {
             })
             this.parseUserInfo(response)
             return true
-        })
+        }).catch(console.log)
     }
 
     activatePlayer = () => {

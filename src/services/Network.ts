@@ -30,7 +30,7 @@ export class NetworkService {
 
         return fetch(`https://api.spotify.com/v1${requestPath}`, requestBody).then((res) => res.text()).then((res) => {
             if (res.length === 0) {
-                return Promise.reject
+                return Promise.reject()
             }
             const parsedResponse = JSON.parse(res)
             if (parsedResponse.error) {
@@ -41,7 +41,7 @@ export class NetworkService {
                 }
                 const event = new CustomEvent('networkerror', errorInfo)
                 window.dispatchEvent(event)
-                return Promise.reject
+                return Promise.reject()
             }
             return parsedResponse
         })

@@ -131,7 +131,7 @@ export class Player extends React.Component<PlayerProps, State> {
         return PlayerNetworkService.getPlayerInformation().then((response) => {
             this.parseValidPlayerResponse(response)
             this.progressUpdater()
-        })
+        }).catch(console.log)
     }
 
     shouldSetPlayerTrack = () => {
@@ -146,29 +146,29 @@ export class Player extends React.Component<PlayerProps, State> {
         PlayerNetworkService.playNextTrack().then(() => {
             const waitBeforeNewRequest = 500
             setTimeout(this.updatePlayerInformation, waitBeforeNewRequest)
-        })
+        }).catch(console.log)
     }
 
     playPreviousSong = () => {
         PlayerNetworkService.playPreviousTrack().then(() => {
             const waitBeforeNewRequest = 500
             setTimeout(this.updatePlayerInformation, waitBeforeNewRequest)
-        })
+        }).catch(console.log)
     }
 
     setPlayerRepeat = () => {
         if (this.state.repeatMode === 'off') {
             PlayerNetworkService.changeRepeatMode('context').then(() => {
                 this.setState({ repeatMode: 'context' })
-            })
+            }).catch(console.log)
         } else if (this.state.repeatMode === 'context') {
             PlayerNetworkService.changeRepeatMode('track').then(() => {
                 this.setState({ repeatMode: 'track' })
-            })
+            }).catch(console.log)
         } else {
             PlayerNetworkService.changeRepeatMode('off').then(() => {
                 this.setState({ repeatMode: 'off' })
-            })
+            }).catch(console.log)
         }
     }
 
@@ -176,11 +176,11 @@ export class Player extends React.Component<PlayerProps, State> {
         if (this.state.shuffle) {
             PlayerNetworkService.toggleShuffle(false).then(() => {
                 this.setState({ shuffle: false })
-            })
+            }).catch(console.log)
         } else {
             PlayerNetworkService.toggleShuffle(true).then(() => {
                 this.setState({ shuffle: true })
-            })
+            }).catch(console.log)
         }
     }
 
@@ -189,13 +189,13 @@ export class Player extends React.Component<PlayerProps, State> {
             PlayerNetworkService.pausePlayer().then(() => {
                 this.setState({ isPlaying: false, })
                 clearTimeout(this.progressBarTimeout)
-            })
+            }).catch(console.log)
             return
         }
         PlayerNetworkService.resumePlayer().then(() => {
             this.setState({ isPlaying: true, realStartTime: Date.now() })
             setTimeout(this.progressUpdater, 0)
-        })
+        }).catch(console.log)
     }
 
     getProgressTimeDiff = () => {
@@ -250,7 +250,7 @@ export class Player extends React.Component<PlayerProps, State> {
                 PlayerNetworkService.setTrack(trackURI).then(() => {
                     const howMuchToWaitResponse = 500
                     setTimeout(this.updatePlayerInformation, howMuchToWaitResponse)
-                })
+                }).catch(console.log)
             }
         })
         document.title = 'Cobe player'

@@ -55,7 +55,7 @@ export class Category extends React.Component<CategoryInterface, State> {
     getRecommended = (offset: number = 0) => {
         NetworkService.makeRequest(`/browse/new-releases?limit=25&offset=${offset}`, 'GET').then((a) => {
             this.parseRecommendeds(a.albums.items)
-        })
+        }).catch(console.log)
     }
 
     parseRecommendeds = (items: CategoryItemFromResponse[]) => {
