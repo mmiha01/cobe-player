@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { PlayerNetworkService } from '@/services/PlayerNetwork'
 
 export interface WaitModalProps {
     setWaitModalDisplay: (a: boolean) => void,
