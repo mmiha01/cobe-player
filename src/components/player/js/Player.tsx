@@ -239,7 +239,7 @@ export class Player extends React.Component<PlayerProps, State> {
     }
 
     changeProgressInteractState = (active: boolean) => {
-        this.setState({ isUserInteractingWithProgressBar: active })
+        this.setState({ isUserInteractingWithProgressBar: active, realStartTime: Date.now() })
     }
 
     componentWillMount() {
