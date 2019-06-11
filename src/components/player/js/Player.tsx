@@ -5,9 +5,7 @@ import { MiddleComponent } from '../parts/middleComponent/js/MiddleComponent'
 import { ProgressBar } from '../parts/progressBar/js/ProgressBar'
 import { Slider } from '../parts/slider/js/Slider'
 import { UserInfo } from '../../userInfo/js/UserInfo'
-import { AuthService } from '@/services/Auth'
 import { PlayerNetworkService } from '@/services/PlayerNetwork'
-import { UserInterface } from '@/interfaces/UserInfo'
 import { ErrorInterface } from '@/interfaces/ErrorInterface'
 
 export interface PlayerProps {
@@ -95,7 +93,6 @@ export class Player extends React.Component<PlayerProps, State> {
     findActiveDevice = (devices: DevicesList[]) => devices.find((device) => device.is_active)
 
     parseValidPlayerResponse = (response: ValidResponse ) => {
-        !response.item && console.log(response)
         if (this.areThereActiveDevices(response.devices)) {
             const {id, name, is_active, volume_percent } = this.findActiveDevice(response.devices)
             this.setState({
@@ -130,44 +127,10 @@ export class Player extends React.Component<PlayerProps, State> {
         })
     }
 
-    checkAuthAndPlayer = () => {
-        AuthService.isUserLoggedIn().then((response: UserInterface) => {
-            if (!response) {
-                this.setState({
-                    isAuthorized: false,
-                })
-                return false
-            }
-            this.setState({
-                isAuthorized: true,
-            })
-            return true
-        }).then((passedAuthorization) => {
-            if (passedAuthorization) {
-                return PlayerNetworkService.getPlayerInformation()
-            }
-            return false
-        }).then((response) => {
-            if (response) {
-                if (response.error) {
-                    this.props.parseResponseError(response.error, PlayerNetworkService.getPlayerInformation)
-                    return false
-                }
-                this.parseValidPlayerResponse(response)
-            }
-        })
-    }
-
     updatePlayerInformation = () => {
         return PlayerNetworkService.getPlayerInformation().then((response) => {
-            if (response) {
-                if (response.error) {
-                    // this.parseResponseError(response.error, () => {})
-                    return false
-                }
-                this.parseValidPlayerResponse(response)
-                this.progressUpdater()
-            }
+            this.parseValidPlayerResponse(response)
+            this.progressUpdater()
         })
     }
 
@@ -239,7 +202,6 @@ export class Player extends React.Component<PlayerProps, State> {
     }
 
     progressUpdater = () => {
-        // console.log('Update is active')
         if (!this.state.isPlaying) {
             return
         }
