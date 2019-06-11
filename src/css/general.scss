@@ -69,7 +69,7 @@
   }
 
 .red-button {
-    background-color: $cobe-dark;
+    background-color: $cobe-red;
     color: $cobe-light;
     border: none;
     height: 40px;
@@ -78,6 +78,19 @@
     width: 400px;
     max-width: calc(100vw - 18px);
     cursor: pointer
+  }
+
+  .red-button:focus, .red-button:active {
+    outline: none;
+    border: none;
+  }
+
+  .red-button:active {
+    transform: translateY(1px);
+  }
+
+  .smaller-button {
+    width: 120px;
   }
   
   .round-icon {

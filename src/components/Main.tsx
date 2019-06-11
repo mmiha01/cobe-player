@@ -13,6 +13,7 @@ import { ExploreMain } from './ExploreMain'
 import { ProfileMain } from './ProfileMain'
 import { Burger } from './burger/js/Burger';
 import { Menu } from './menu/js/Menu';
+import { WaitModal } from './waitModal/js/WaitModal'
 
 export interface MainProps { compiler: string; framework: string; }
 
@@ -24,6 +25,7 @@ interface State {
     productType: string,
     imageURL: string,
     currentRoute: string,
+    showModal: boolean,
 }
 
 export class Main extends React.Component<MainProps, State> {
@@ -35,7 +37,8 @@ export class Main extends React.Component<MainProps, State> {
         userName: '',
         productType: '',
         imageURL: '',
-        currentRoute: ''
+        currentRoute: '',
+        showModal: false,
     }
 
     routeUpdaterCallback = (currentRoute: string) => {
@@ -97,6 +100,10 @@ export class Main extends React.Component<MainProps, State> {
         this.setState({  currentRoute: 'player' })
     }
 
+    setWaitModalDisplay = (showModal: boolean) => {
+        this.setState({ showModal })
+    }
+
     componentWillMount() {
         this.checkAuth()
     }
@@ -121,12 +128,14 @@ export class Main extends React.Component<MainProps, State> {
             pushRoute: this.pushRoute,
             parseResponseError: this.parseResponseError,
             activatePlayer: this.activatePlayer,
+            setWaitModalDisplay: this.setWaitModalDisplay,
             ...this.state,
         }
 
         return (
             <Context.Provider value={contextValue}>
                 <div id='main-inner'>
+                    <WaitModal setWaitModalDisplay={this.setWaitModalDisplay} showModal={this.state.showModal} />
                     <Burger toggleMenu={this.toggleMenu} />
                     <Menu
                         menuOpened={this.state.menuOpened}
