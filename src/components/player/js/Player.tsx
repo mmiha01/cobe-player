@@ -187,13 +187,13 @@ export class Player extends React.Component<PlayerProps, State> {
     togglePlayer = () => {
         if (this.state.isPlaying === true) {
             PlayerNetworkService.pausePlayer().then(() => {
-                this.setState({ isPlaying: false })
+                this.setState({ isPlaying: false, })
                 clearTimeout(this.progressBarTimeout)
             })
             return
         }
         PlayerNetworkService.resumePlayer().then(() => {
-            this.setState({ isPlaying: true })
+            this.setState({ isPlaying: true, realStartTime: Date.now() })
             setTimeout(this.progressUpdater, 0)
         })
     }
