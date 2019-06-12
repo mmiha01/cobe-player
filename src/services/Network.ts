@@ -28,7 +28,7 @@ export class NetworkService {
         // tslint:disable-next-line: no-any
         const requestBody: any = NetworkService.getRequestBody(method, bodyParams)
 
-        return fetch(`https://api.spotify.com/v1${requestPath}`, requestBody).then((res) => res.text()).then((res) => {
+        return fetch(`https://api.spotify.com/v1${requestPath}`, requestBody).then(res => res.text()).then((res) => {
             if (res.length === 0) {
                 return Promise.reject()
             }
