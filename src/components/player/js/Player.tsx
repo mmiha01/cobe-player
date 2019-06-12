@@ -6,6 +6,7 @@ import { ProgressBar } from '../parts/progressBar/js/ProgressBar'
 import { Slider } from '../parts/slider/js/Slider'
 import { UserInfo } from '../../userInfo/js/UserInfo'
 import { PlayerNetworkService } from '@/services/PlayerNetwork'
+import { RouteService } from '@/services/RouteService';
 
 export interface PlayerProps {
     userName: string,
@@ -83,6 +84,8 @@ export class Player extends React.Component<PlayerProps, State> {
         realStartTime: 0,
         isUserInteractingWithProgressBar: false,
     }
+
+    router = new RouteService(null, 'player')
 
     progressBarTimeout: ReturnType<typeof setTimeout>
 
@@ -207,7 +210,8 @@ export class Player extends React.Component<PlayerProps, State> {
     }
 
     progressUpdater = () => {
-        if (!this.state.isPlaying) {
+        console.log(123321123)
+        if (!this.state.isPlaying || !this.router.isRoute('player')) {
             return
         }
 
