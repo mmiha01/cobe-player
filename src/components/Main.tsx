@@ -89,15 +89,12 @@ export class Main extends React.Component<MainProps, State> {
         this.setState({ showModal })
     }
 
-    componentWillMount() {
-        this.checkAuth()
-    }
-
     shouldComponentUpdate(a: {}, b: { didCheckAuthState: boolean, }) {
         return b.didCheckAuthState === true
     }
 
     componentDidMount() {
+        this.checkAuth()
         window.addEventListener('networkerror', (e: CustomEvent) => {
             if (e.detail.status === 401 || e.detail.status === 400) {
                 this.setState({

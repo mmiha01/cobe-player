@@ -13,7 +13,7 @@ export interface ExploreInterface {
 
 export class Explore extends React.Component<ExploreInterface, {}> {
 
-    componentWillMount() {
+    componentDidMount() {
         document.title = 'Cobe player - Explore'
     }
 

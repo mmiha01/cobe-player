@@ -44,6 +44,6 @@ export class NetworkService {
                 return Promise.reject()
             }
             return parsedResponse
-        }).catch(console.log)
+        }).catch(x => console.log(123))
     }
 }

@@ -103,11 +103,8 @@ export class Category extends React.Component<CategoryInterface, State> {
         this.router.pushRoute(`/player#newtrack=${encodeURI(trackURI)}`)
     }
 
-    componentWillMount() {
-        this.getRecommended()
-    }
-
     componentDidMount() {
+        this.getRecommended()
         document.addEventListener('scroll', this.scrollHandler)
     }
 

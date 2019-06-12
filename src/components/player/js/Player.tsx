@@ -91,7 +91,6 @@ export class Player extends React.Component<PlayerProps, State> {
     findActiveDevice = (devices: DevicesList[]) => devices.find((device) => device.is_active)
 
     parseValidPlayerResponse = (response: ValidResponse ) => {
-        console.log(response.devices)
         if (this.areThereActiveDevices(response.devices)) {
             const {id, name, is_active, volume_percent } = this.findActiveDevice(response.devices)
             this.setState({
@@ -241,7 +240,7 @@ export class Player extends React.Component<PlayerProps, State> {
         this.setState({ isUserInteractingWithProgressBar: active, realStartTime: Date.now() })
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.updatePlayerInformation().then(() => {
             if (this.shouldSetPlayerTrack()) {
                 const trackURI = this.getNewTrackURI()
