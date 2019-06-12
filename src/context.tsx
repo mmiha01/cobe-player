@@ -10,7 +10,6 @@ export interface GlobalState {
     imageURL: string,
     currentRoute: string,
     pushRoute: (a: string) => void,
-    parseResponseError: (err: ErrorInterface, fn: () => void) => void,
     activatePlayer: () => void,
     setWaitModalDisplay: (a: boolean) => void,
     showModal: boolean,

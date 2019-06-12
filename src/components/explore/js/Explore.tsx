@@ -8,7 +8,6 @@ export interface ExploreInterface {
     productType: string,
     imageURL: string,
     isAuthorized: boolean,
-    parseResponseError: (err: ErrorInterface, fn: () => void) => void,
     activatePlayer: () => void,
 }
 
@@ -30,7 +29,6 @@ export class Explore extends React.Component<ExploreInterface, {}> {
                     <h1>Explore</h1>
                     <Category
                         isAuthorized={this.props.isAuthorized}
-                        parseResponseError={this.props.parseResponseError}
                         activatePlayer={this.props.activatePlayer}
                     />
                 </div>

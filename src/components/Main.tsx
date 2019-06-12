@@ -59,14 +59,6 @@ export class Main extends React.Component<MainProps, State> {
         this.setState({ menuOpened: true })
     }
 
-    parseResponseError = (err: ErrorInterface, fn?: () => void) => {
-        if (err.status === 401) {
-            this.setState({ isAuthorized: false })
-        } else if (err.status === 429) {
-            console.log(429)
-        }
-    }
-
     parseUserInfo = (user: UserInterface) => {
         const image = (user.images[0] && user.images[0].url) || null
         if (image) {
@@ -134,7 +126,6 @@ export class Main extends React.Component<MainProps, State> {
         const contextValue = {
             toggleMenu: this.toggleMenu,
             pushRoute: this.pushRoute,
-            parseResponseError: this.parseResponseError,
             activatePlayer: this.activatePlayer,
             setWaitModalDisplay: this.setWaitModalDisplay,
             ...this.state,

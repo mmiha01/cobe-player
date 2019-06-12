@@ -13,7 +13,6 @@ export class ExploreMain extends React.Component<{}> {
                             userName={value.userName}
                             productType={value.productType}
                             imageURL={value.imageURL}
-                            parseResponseError={value.parseResponseError}
                             isAuthorized={value.isAuthorized}
                         activatePlayer={value.activatePlayer}
                         />

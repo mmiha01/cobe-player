@@ -11,7 +11,6 @@ export class PlayerMain extends React.Component<{}> {
                         userName={value.userName}
                         productType={value.productType}
                         imageURL={value.imageURL}
-                        parseResponseError={value.parseResponseError}
                         isAuthorized={value.isAuthorized}
                     />
                     )

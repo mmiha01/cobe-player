@@ -13,7 +13,6 @@ export interface PlayerProps {
     productType: string,
     imageURL: string,
     isAuthorized: boolean,
-    parseResponseError: (err: ErrorInterface, fn: () => void) => void,
 }
 
 interface DevicesList {

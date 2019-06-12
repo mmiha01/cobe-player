@@ -6,7 +6,6 @@ import { RouteService } from '@/services/RouteService'
 
 export interface CategoryInterface {
     isAuthorized: boolean,
-    parseResponseError: (err: ErrorInterface, fn: () => void) => void,
     activatePlayer: () => void,
 }
 
