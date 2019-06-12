@@ -129,7 +129,9 @@ export class Player extends React.Component<PlayerProps, State> {
     }
 
     updatePlayerInformation = () => {
+        console.log('Updating')
         return PlayerNetworkService.getPlayerInformation().then((response) => {
+            console.log('Updated')
             this.parseValidPlayerResponse(response)
             this.progressUpdater()
         }).catch(console.log)
@@ -145,14 +147,15 @@ export class Player extends React.Component<PlayerProps, State> {
 
     playNextSong = () => {
         PlayerNetworkService.playNextTrack().then(() => {
-            const waitBeforeNewRequest = 500
+            const waitBeforeNewRequest = 1000
+            console.log('Next track promise done')
             setTimeout(this.updatePlayerInformation, waitBeforeNewRequest)
         }).catch(console.log)
     }
 
     playPreviousSong = () => {
         PlayerNetworkService.playPreviousTrack().then(() => {
-            const waitBeforeNewRequest = 500
+            const waitBeforeNewRequest = 1000
             setTimeout(this.updatePlayerInformation, waitBeforeNewRequest)
         }).catch(console.log)
     }
@@ -249,7 +252,7 @@ export class Player extends React.Component<PlayerProps, State> {
                 const trackURI = this.getNewTrackURI()
                 location.hash = ''
                 PlayerNetworkService.setTrack(trackURI).then(() => {
-                    const howMuchToWaitResponse = 500
+                    const howMuchToWaitResponse = 1000
                     setTimeout(this.updatePlayerInformation, howMuchToWaitResponse)
                 }).catch(console.log)
             }
