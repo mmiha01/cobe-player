@@ -45,7 +45,7 @@ export class Main extends React.Component<MainProps, State> {
         this.setState({ currentRoute, menuOpened: false })
     }
 
-    routeUpdater: RouteService = new RouteService(this.routeUpdaterCallback)
+    routeUpdater: RouteService = new RouteService(this.routeUpdaterCallback, 'player')
 
     pushRoute = (route: string) => {
         this.routeUpdater.pushRoute(route)

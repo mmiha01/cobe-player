@@ -2,9 +2,11 @@ export class RouteService {
 
     routeUpdater?: (currentRoute: string) => void
     currentRoute: string
+    defaultRoute: string
 
-    constructor(routeUpdater?: (currentRoute: string) => void) {
+    constructor(routeUpdater?: (currentRoute: string) => void, defaultRoute: string = '') {
         this.routeUpdater = routeUpdater || null
+        this.defaultRoute = defaultRoute
         this.currentRoute = this.getCurrentRoute()
 
         if (this.routeUpdater) {
@@ -27,6 +29,6 @@ export class RouteService {
 
     getCurrentRoute() {
         const cutSlash = window.location.pathname.substring(1)
-        return cutSlash.length ? cutSlash : 'player'
+        return cutSlash.length ? cutSlash : this.defaultRoute
     }
 }

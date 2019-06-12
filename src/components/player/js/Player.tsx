@@ -6,7 +6,6 @@ import { ProgressBar } from '../parts/progressBar/js/ProgressBar'
 import { Slider } from '../parts/slider/js/Slider'
 import { UserInfo } from '../../userInfo/js/UserInfo'
 import { PlayerNetworkService } from '@/services/PlayerNetwork'
-import { ErrorInterface } from '@/interfaces/ErrorInterface'
 
 export interface PlayerProps {
     userName: string,
@@ -92,6 +91,7 @@ export class Player extends React.Component<PlayerProps, State> {
     findActiveDevice = (devices: DevicesList[]) => devices.find((device) => device.is_active)
 
     parseValidPlayerResponse = (response: ValidResponse ) => {
+        console.log(response.devices)
         if (this.areThereActiveDevices(response.devices)) {
             const {id, name, is_active, volume_percent } = this.findActiveDevice(response.devices)
             this.setState({
