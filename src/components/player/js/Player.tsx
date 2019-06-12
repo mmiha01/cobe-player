@@ -252,9 +252,11 @@ export class Player extends React.Component<PlayerProps, State> {
             }
         })
         document.title = 'Cobe player'
+        window.addEventListener('focus', this.updatePlayerInformation)
     }
 
     componentWillUnmount() {
+        window.removeEventListener('focus', this.updatePlayerInformation)
         clearTimeout(this.progressBarTimeout)
     }
 
