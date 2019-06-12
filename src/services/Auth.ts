@@ -25,7 +25,7 @@ export class AuthService {
                 return false
             }
             return response
-        })
+        }).catch(console.log)
     }
 
     static isUserLoggedIn = () => {
@@ -33,7 +33,7 @@ export class AuthService {
             if (!CookieService.getTokenFromCookie()) {
                 resolve(false)
             } else {
-                AuthService.checkAuthWithSpotify().then(resolve)
+                AuthService.checkAuthWithSpotify().then(resolve).catch(console.log)
             }
         })
     }
