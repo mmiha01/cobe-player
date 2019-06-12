@@ -9,10 +9,7 @@ export class Route extends React.Component<RouteProps, {}> {
 
     render() {
         if (!this.props.isRoute(this.props.route)) {
-            return (
-                <>
-                </>
-            )
+            return null
         } else {
             return this.props.component
         }

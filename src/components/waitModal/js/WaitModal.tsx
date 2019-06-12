@@ -11,31 +11,22 @@ interface State {
 
 export class WaitModal extends React.Component<WaitModalProps, State> {
 
-    modal = React.createRef<HTMLDivElement>()
-
-    setModalDisplay = () => {
-        if (!this.props.showModal) {
-            this.modal.current.classList.add('hide-wait-modal')
-            return
-        }
-        this.modal.current.classList.remove('hide-wait-modal')
+    setClassNames = () => {
+        const constantClass = 'hero wait-modal'
+        return this.props.showModal ? constantClass : constantClass + ' hide-wait-modal'
     }
 
-    componentDidUpdate() {
-        this.setModalDisplay()
-    }
-
-    componentDidMount() {
-        this.setModalDisplay()
+    hideModal = () => {
+        this.props.setWaitModalDisplay(false)
     }
 
     render() {
         return (
-            <div className='hero wait-modal hide-wait-modal' ref={this.modal}>
+            <div className={this.setClassNames()}>
                 <div className='hero-item'>
                     <p>You've sent too many requests, please try again later!</p>
                     <button className='red-button smaller-button'
-                        onClick={() => this.props.setWaitModalDisplay(false) }>
+                        onClick={this.hideModal}>
                             Ok
                     </button>
                 </div>

@@ -64,7 +64,7 @@ export class Profile extends React.Component<{}, State> {
         return 'profile-image no-border'
     }
 
-    componentWillMount() {
+    componentDidMount() {
         NetworkService.makeRequest('/me').then(this.parseProfileData).catch(console.log)
         document.title = 'Cobe player - My profile'
     }

@@ -9,24 +9,18 @@ export interface MenuInterface {
 
 export class Menu extends React.Component<MenuInterface, {}> {
 
-    HTMLElementMenu = React.createRef<HTMLDivElement>()
-
     setRouteUpdates = (route: string) => {
         this.props.pushRoute(route)
     }
 
-    componentDidUpdate() {
-        if (this.props.menuOpened) {
-            this.HTMLElementMenu.current.classList.add('opened-menu')
-            return
-        }
-        this.HTMLElementMenu.current.classList.remove('opened-menu')
-        return
+    getClassNames = () => {
+        const constantClasses = 'hero hero-menu'
+        return this.props.menuOpened ? constantClasses + ' opened-menu' : constantClasses
     }
 
     render() {
         return (
-            <div className='hero hero-menu' ref={this.HTMLElementMenu}>
+            <div className={this.getClassNames()}>
                 <div className='pointer menu-opener' onClick={this.props.toggleMenu} >
                     <img src={images.closeIcon} alt='' />
                 </div>

@@ -77,9 +77,10 @@ export class Category extends React.Component<CategoryInterface, State> {
             i++
         }
         const mergedArray = this.state.items.concat(arr)
+        const howManyItemsToLoad = 25
         this.setState({
             items: mergedArray,
-            offset: this.state.offset + 25,
+            offset: this.state.offset + howManyItemsToLoad,
             trackID: i,
         })
     }
