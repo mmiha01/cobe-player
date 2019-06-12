@@ -210,7 +210,6 @@ export class Player extends React.Component<PlayerProps, State> {
     }
 
     progressUpdater = () => {
-        console.log(123321123)
         if (!this.state.isPlaying || !this.router.isRoute('player')) {
             return
         }
