@@ -94,6 +94,7 @@ export class Player extends React.Component<PlayerProps, State> {
     findActiveDevice = (devices: DevicesList[]) => devices.find((device) => device.is_active)
 
     parseValidPlayerResponse = (response: ValidResponse ) => {
+        console.log(response)
         if (this.areThereActiveDevices(response.devices)) {
             const {id, name, is_active, volume_percent } = this.findActiveDevice(response.devices)
             this.setState({
@@ -147,7 +148,7 @@ export class Player extends React.Component<PlayerProps, State> {
 
     playNextSong = () => {
         PlayerNetworkService.playNextTrack().then(() => {
-            const waitBeforeNewRequest = 1000
+            const waitBeforeNewRequest = 2000
             console.log('Next track promise done')
             setTimeout(this.updatePlayerInformation, waitBeforeNewRequest)
         }).catch(console.log)
@@ -155,7 +156,7 @@ export class Player extends React.Component<PlayerProps, State> {
 
     playPreviousSong = () => {
         PlayerNetworkService.playPreviousTrack().then(() => {
-            const waitBeforeNewRequest = 1000
+            const waitBeforeNewRequest = 2000
             setTimeout(this.updatePlayerInformation, waitBeforeNewRequest)
         }).catch(console.log)
     }
@@ -252,7 +253,7 @@ export class Player extends React.Component<PlayerProps, State> {
                 const trackURI = this.getNewTrackURI()
                 location.hash = ''
                 PlayerNetworkService.setTrack(trackURI).then(() => {
-                    const howMuchToWaitResponse = 1000
+                    const howMuchToWaitResponse = 2000
                     setTimeout(this.updatePlayerInformation, howMuchToWaitResponse)
                 }).catch(console.log)
             }
