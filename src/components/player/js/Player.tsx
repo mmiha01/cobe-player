@@ -7,6 +7,7 @@ import { Slider } from '../parts/slider/js/Slider'
 import { UserInfo } from '../../userInfo/js/UserInfo'
 import { PlayerNetworkService } from '@/services/PlayerNetwork'
 import { RouteService } from '@/services/RouteService';
+import { NetworkMessage } from '../parts/networkMessage/js/NetworkMessage';
 
 export interface PlayerProps {
     userName: string,
@@ -63,6 +64,7 @@ interface State {
     duration: number,
     realStartTime: number,
     isUserInteractingWithProgressBar: boolean,
+    showNetworkMessage: boolean,
 }
 
 export class Player extends React.Component<PlayerProps, State> {
@@ -83,6 +85,7 @@ export class Player extends React.Component<PlayerProps, State> {
         isAuthorized: this.props.isAuthorized,
         realStartTime: 0,
         isUserInteractingWithProgressBar: false,
+        showNetworkMessage: false,
     }
 
     router = new RouteService(null, 'player')
@@ -135,6 +138,7 @@ export class Player extends React.Component<PlayerProps, State> {
             console.log('Updated')
             this.parseValidPlayerResponse(response)
             this.progressUpdater()
+            this.setState({ showNetworkMessage: false })
         }).catch(console.log)
     }
 
@@ -147,6 +151,7 @@ export class Player extends React.Component<PlayerProps, State> {
     }
 
     playNextSong = () => {
+        this.setState({ showNetworkMessage: true })
         PlayerNetworkService.playNextTrack().then(() => {
             const waitBeforeNewRequest = 2000
             console.log('Next track promise done')
@@ -155,6 +160,7 @@ export class Player extends React.Component<PlayerProps, State> {
     }
 
     playPreviousSong = () => {
+        this.setState({ showNetworkMessage: true })
         PlayerNetworkService.playPreviousTrack().then(() => {
             const waitBeforeNewRequest = 2000
             setTimeout(this.updatePlayerInformation, waitBeforeNewRequest)
@@ -250,6 +256,7 @@ export class Player extends React.Component<PlayerProps, State> {
     componentDidMount() {
         this.updatePlayerInformation().then(() => {
             if (this.shouldSetPlayerTrack()) {
+                this.setState({ showNetworkMessage: true })
                 const trackURI = this.getNewTrackURI()
                 location.hash = ''
                 PlayerNetworkService.setTrack(trackURI).then(() => {
@@ -276,6 +283,7 @@ export class Player extends React.Component<PlayerProps, State> {
         return (
             <div className='hero'>
                 <div className='hero-item large-hero'>
+                    <NetworkMessage show={this.state.showNetworkMessage} />
                     <UserInfo
                         userName={this.props.userName}
                         imageURL={this.props.imageURL}
